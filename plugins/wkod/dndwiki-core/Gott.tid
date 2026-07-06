@@ -1,0 +1,14 @@
+caption: Götter
+color: #99ff99
+created: 20200210140958635
+modified: 20200805075406988
+tags: Index
+title: Gott
+tmap.id: f829dbb0-0cb9-46a8-bc65-88e4b13c0214
+type: text/vnd.tiddlywiki
+
+<$list filter="[tag[Gott]sort[title]]">
+<div class="tc-menu-list-subitem">
+<$macrocall $name="totlink" title={{!!title}} style="~~"/>
+</div>
+</$list>

@@ -1,0 +1,14 @@
+caption: Informationen
+color: #7c7c7c
+created: 20200804121707247
+modified: 20200804123115788
+tags: Index
+title: Information
+tmap.id: b7086f35-7370-4352-aa25-1e757b5dedd7
+type: text/vnd.tiddlywiki
+
+<$list filter="[tag[Information]sort[title]]">
+<div class="tc-menu-list-subitem">
+<$link to={{!!title}}><$view field="title"/></$link>
+</div>
+</$list>

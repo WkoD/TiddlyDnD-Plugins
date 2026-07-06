@@ -1,0 +1,36 @@
+caption: Gegenstände
+color: #ff80ff
+created: 20200209095911454
+modified: 20200814095827755
+tags: Index
+title: Gegenstand
+tmap.id: b76920ba-2674-4a8f-acd1-b3666cc22307
+type: text/vnd.tiddlywiki
+
+!!! Artefakte
+<$list filter="[tag[Artefakt]sort[title]]">
+<div class="tc-menu-list-subitem">
+<$macrocall $name="totlink" title={{!!title}} style="~~"/>
+</div>
+</$list>
+
+!!! Bücher
+<$list filter="[tag[Buch]sort[title]]">
+<div class="tc-menu-list-subitem">
+<$macrocall $name="totlink" title={{!!title}} style="~~"/>
+</div>
+</$list>
+
+!!! Gegenstände
+<$list filter="[tag[Gegenstand]sort[title]]">
+<div class="tc-menu-list-subitem">
+<$link to={{!!title}}><$view field="title"/></$link>
+</div>
+</$list>
+
+!!! Materialien
+<$list filter="[tag[Material]sort[title]]">
+<div class="tc-menu-list-subitem">
+<$link to={{!!title}}><$view field="title"/></$link>
+</div>
+</$list>

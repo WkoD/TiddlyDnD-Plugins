@@ -1,0 +1,10 @@
+{
+  "title": "$:/plugins/wkod/staticfiles",
+  "name": "staticfiles",
+  "description": "Liefert die externen Asset-Ordner (images/, data/) im Node-Dev-Server aus. Server-only (platform: server) - wird vom Offline-Build ausgeschlossen.",
+  "author": "WkoD",
+  "version": "1.0.0",
+  "core-version": ">=5.0.0",
+  "plugin-type": "plugin",
+  "platform": "server"
+}

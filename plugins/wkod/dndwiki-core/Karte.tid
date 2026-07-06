@@ -1,0 +1,13 @@
+color: #ff2b2b
+created: 20200804114013687
+modified: 20200804114019198
+tags: Index
+title: Karte
+tmap.id: d0595b53-8f71-462a-89ab-dbdb0817a214
+type: text/vnd.tiddlywiki
+
+<$list filter="[tag[Karte]sort[title]]">
+<div class="tc-menu-list-subitem">
+<$link to={{!!title}}><$view field="title"/></$link>
+</div>
+</$list>

@@ -1,0 +1,14 @@
+caption: Orte
+color: #ff2b2b
+created: 20200209100117688
+modified: 20200805075418051
+tags: Index
+title: Ort
+tmap.id: c3b36ec3-51e3-4d7b-89af-5ab5c88cc4a8
+type: text/vnd.tiddlywiki
+
+<$list filter="[tag[Ort]sort[title]]">
+<div class="tc-menu-list-subitem">
+<$macrocall $name="totlink" title={{!!title}} style="~~"/>
+</div>
+</$list>

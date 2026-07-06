@@ -1,0 +1,7 @@
+created: 20200728112316740
+modified: 20200728112321166
+priority: 1
+scope: [tag[Spieler]!search:datum[.]]
+style: {"color":{"background":"rgba(0,85,0,1)"}}
+title: $:/plugins/felixhayashi/tiddlymap/graph/nodeTypes/Spieler
+type: text/vnd.tiddlywiki

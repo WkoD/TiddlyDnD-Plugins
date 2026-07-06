@@ -1,0 +1,7 @@
+created: 20200728112018392
+modified: 20200728112036240
+priority: 1
+scope: [tag[Ereignis]]
+style: {"color":{"background":"rgba(72,164,255,1)"}}
+title: $:/plugins/felixhayashi/tiddlymap/graph/nodeTypes/Ereignis
+type: text/vnd.tiddlywiki

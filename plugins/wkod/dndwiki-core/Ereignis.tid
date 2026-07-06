@@ -1,0 +1,11 @@
+color: #48a4ff
+created: 20200209100013995
+modified: 20200805071716852
+tags: Index
+title: Ereignis
+tmap.id: bc4c9a4b-8f03-45e8-ac6d-e8524af2b996
+type: text/vnd.tiddlywiki
+
+<table><tr><th align="center" colspan="3">Zeitpunkt (DR)</th><th>Ereignis</th></tr>
+<$list filter="[tag[Ereignis]] +[!ereignisliste[]]">{{!!title}}</$list>
+</table>

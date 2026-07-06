@@ -1,0 +1,27 @@
+color: #0069D2
+created: 20171009090415567
+datum: 1350-01-01
+modified: 20201006074918092
+title: Abenteuer
+tmap.id: 48325664-8054-4826-a32a-22020c7790a7
+type: text/vnd.tiddlywiki
+
+@@float:right;{{||Index}}
+@@
+
+!!! Aktuelles Datum
+<ul>
+<$macrocall $name="datumlang" datum={{Datum}}/>
+</ul>
+
+{{||Spieler}}
+
+@@clear:both;
+---
+!! Offene Aufgaben
+
+{{||TBC/Abenteuer}}
+
+---
+{{||Ereignis}}
+@@

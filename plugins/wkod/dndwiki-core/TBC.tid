@@ -1,0 +1,19 @@
+caption: Offene Punkte
+created: 20200105183443517
+modified: 20200814100317969
+tags: Index
+title: TBC
+tmap.id: 9ba90107-8c36-4821-9300-822b38b47344
+type: text/vnd.tiddlywiki
+
+!!! Abenteuer
+
+{{||TBC/Abenteuer}}
+
+!!! Anderes
+
+<$list filter="[!is[system]!tag[Index]!prefix[TBC]!title[Abenteuer]search:text[TBC]sort[title]]">
+<div class="tc-menu-list-subitem">
+<$link to={{!!title}}><$view field="title"/></$link>
+</div>
+</$list>

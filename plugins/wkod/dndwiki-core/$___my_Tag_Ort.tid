@@ -1,0 +1,12 @@
+created: 20200311085726896
+modified: 20200728110413647
+tags: 
+title: $:/_my/Tag/Ort
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+<span class="tc-tag-list-item">
+<$set name="transclusion" value=<<currentTiddler>>>
+<$macrocall $name="tag-pill-body" tag=<<currentTiddler>> icon={{!!icon}} colour={{Ort!!color}} palette={{$:/palette}} element-tag="""$button"""/>
+</$set>
+</span>

@@ -1,0 +1,16 @@
+created: 20200308185530421
+modified: 20200805065442707
+tags: Index
+title: Index
+tmap.id: 4057b806-e9ee-456a-90a5-0f378b313828
+type: text/vnd.tiddlywiki
+
+<ul>
+<div class="tc-menu-list-subitem">
+<$list filter="[tag[Index]!title[Index]!prefix[TBC]has:field[caption]sort[caption]]">
+<li><$link to={{!!title}}><$view field="caption"/></$link></li>
+</$list>
+<br>
+<li><$link to="TBC">{{TBC!!caption}}</$link></li>
+</div>
+</ul>

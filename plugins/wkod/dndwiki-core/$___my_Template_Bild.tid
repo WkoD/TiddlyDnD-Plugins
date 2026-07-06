@@ -1,0 +1,7 @@
+created: 20200306173851644
+modified: 20200728113748008
+tags: 
+title: $:/_my/Template/Bild
+type: text/vnd.tiddlywiki
+
+<$macrocall $name="bild" title={{!!title}}/>

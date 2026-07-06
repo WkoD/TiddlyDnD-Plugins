@@ -1,0 +1,38 @@
+calc_: 
+created: 20181002134333437
+modified: 20201006075321278
+tags: Information
+title: Kalender
+tmap.id: 0f7ce517-5157-4071-8926-e2745c72e281
+type: text/vnd.tiddlywiki
+
+Ein weit verbreitetes System zum Messen der Zeit. Jahreszahlen werden nach der Zählung von Dale (DR - Dalereckoning) berechnet und ein Jahr durch den Kalender von Harptos aufgeteilt.
+
+!!! Rechner
+|!Datum: | <$edit-text tiddler="$:/temp/KalenderRechner" field="calc_date" type="text"/> |
+|!Extra Tage: | <$edit-text tiddler="$:/temp/KalenderRechner" field="calc_day" type="text"/> |
+|!Ergebnis: | <$macrocall $name="datumrechner" datum={{$:/temp/KalenderRechner!!calc_date}} tage={{$:/temp/KalenderRechner!!calc_day}}/> |
+
+!!! Kalender von Harptos
+
+Ein Jahr hat 12 Monate, die jeweils 3 mal 10 Tage (auch Zehntage genannt) lang sind. Es gibt weiterhin 5 Extratage, die zwischen den Monaten liegen. Alle 4 Jahre ist zusätzlich 
+Shieldmeet.
+
+| 1 |Hammer|Deepwinter|
+||Midwinter||
+| 2 |Alturiak|The Claw of Winter|
+| 3 |Ches|The Claw of Sunsets|
+| 4 |Tarsakh|The Claw of Storms|
+||Greengrass||
+| 5 |Mirtul|The Melting|
+| 6 |Kythorn|The Time of Flowers|
+| 7 |Flamerule|Summertide|
+||Midsummer||
+||Shieldmeet (alle 4 Jahre)||
+| 8 |Eleasis|Highsun|
+| 9 |Eleint|The Fading|
+||Highharvestide||
+| 10 |Marpenoth|Leaffall|
+| 11 |Uktar|The Rotting|
+||Feast of the Moon||
+| 12 |Nightal|The Drawing Down|

@@ -1,0 +1,11 @@
+caption: Offene Punkte
+created: 20211128121309771
+modified: 20211128121352016
+tags: $:/tags/TextEditor/Snippet
+title: $:/_my/Snippet/OffenePunkte
+type: text/vnd.tiddlywiki
+
+@@.tc-tiddler-frame
+@@width:100%;border: 3px solid red;
+Offene Punkte
+@@

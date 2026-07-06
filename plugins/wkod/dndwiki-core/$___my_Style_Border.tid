@@ -1,0 +1,41 @@
+created: 20200814090319235
+modified: 20200814094906773
+tags: $:/tags/Stylesheet
+title: $:/_my/Style/Border
+type: text/vnd.tiddlywiki
+
+.tc-tagged-Ereignis {
+border: 2px solid #48a4ff;
+}
+
+.tc-tagged-Gott {
+border: 2px solid #99ff99;
+}
+
+.tc-tagged-Information {
+border: 2px solid #7c7c7c;
+}
+
+.tc-tagged-Karte {
+border: 2px solid #ff2b2b;
+}
+
+.tc-tagged-Notiz {
+border: 2px solid #000000;
+}
+
+.tc-tagged-Organisation {
+border: 2px solid #ff8000;
+}
+
+.tc-tagged-Ort {
+border: 2px solid #ff2b2b;
+}
+
+.tc-tagged-Person {
+border: 2px solid #00a600;
+}
+
+.tc-tagged-Spieler {
+border: 2px solid #005500;
+}

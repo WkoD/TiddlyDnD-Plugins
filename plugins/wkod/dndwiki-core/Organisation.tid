@@ -1,0 +1,14 @@
+caption: Organisationen
+color: #ff8000
+created: 20200209100141327
+modified: 20200805074929404
+tags: Index
+title: Organisation
+tmap.id: d5922f6a-d9a5-4b64-92a7-34e9973361ed
+type: text/vnd.tiddlywiki
+
+<$list filter="[tag[Organisation]sort[title]]">
+<div class="tc-menu-list-subitem">
+<$macrocall $name="totlink" title={{!!title}} style="~~"/>
+</div>
+</$list>

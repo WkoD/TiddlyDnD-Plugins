@@ -1,0 +1,11 @@
+created: 20200209132938109
+modified: 20200805074324129
+tags: $:/tags/Stylesheet
+title: $:/_my/Style/Tot
+type: text/vnd.tiddlywiki
+
+<$list filter="[!is[system]!tag[Ereignis]search:datum[.]]"> 
+[data-tiddler-title="<$view field=title/>"] {
+background-color: #DDDDDD;
+}
+</$list> 

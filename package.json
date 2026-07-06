@@ -1,0 +1,14 @@
+{
+  "name": "tiddlydnd-plugins",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plugin-Buendel fuer die DnDWiki-Repo-Familie: dndwiki-core (Formatschicht) + staticfiles + felixhayashi/flibbles-Drittanbieter. Enthaelt die Autoren-/Vorschau-Edition.",
+  "scripts": {
+    "start": "cross-env TIDDLYWIKI_PLUGIN_PATH=./plugins tiddlywiki editions/authoring --listen",
+    "smoke": "cross-env TIDDLYWIKI_PLUGIN_PATH=./plugins tiddlywiki editions/authoring --verbose --version"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "tiddlywiki": "5.4.0"
+  }
+}

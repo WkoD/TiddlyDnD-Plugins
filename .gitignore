@@ -1,0 +1,6 @@
+node_modules/
+*.log
+/output/
+
+# Runtime-Save-State der Editionen
+editions/*/tiddlers/

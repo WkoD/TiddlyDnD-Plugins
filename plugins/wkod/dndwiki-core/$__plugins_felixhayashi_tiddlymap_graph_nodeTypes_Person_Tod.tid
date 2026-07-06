@@ -1,0 +1,7 @@
+created: 20200728112304760
+modified: 20200728112311750
+priority: 1
+scope: [tag[Person]search:datum[.]]
+style: {"color":{"background":"rgba(221,221,221,1)"}}
+title: $:/plugins/felixhayashi/tiddlymap/graph/nodeTypes/Person_Tod
+type: text/vnd.tiddlywiki

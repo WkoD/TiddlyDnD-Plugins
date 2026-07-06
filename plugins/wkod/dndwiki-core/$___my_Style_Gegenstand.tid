@@ -1,0 +1,29 @@
+created: 20200817115000561
+modified: 20200817120510344
+tags: $:/tags/Stylesheet
+title: $:/_my/Style/Gegenstand
+type: text/vnd.tiddlywiki
+
+.tc-tagged-Artefakt {
+border: 2px solid #ff80ff;
+}
+
+.tc-tagged-Buch {
+border: 2px solid #ff80ff;
+}
+
+.tc-tagged-Buch img {
+margin:10px;
+}
+
+.tc-tagged-Buch .tc-tiddler-body {
+text-align: justify;
+}
+
+.tc-tagged-Gegenstand {
+border: 2px solid #ff80ff;
+}
+
+.tc-tagged-Material {
+border: 2px solid #ff80ff;
+}
