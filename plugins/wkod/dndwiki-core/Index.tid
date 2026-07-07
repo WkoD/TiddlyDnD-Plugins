@@ -7,7 +7,7 @@ type: text/vnd.tiddlywiki
 
 <ul>
 <div class="tc-menu-list-subitem">
-<$list filter="[tag[Index]!title[Index]!prefix[TBC]has:field[caption]sort[caption]]">
+<$list filter="[all[tiddlers+shadows]tag[Index]!title[Index]!prefix[TBC]has:field[caption]sort[caption]]">
 <li><$link to={{!!title}}><$view field="caption"/></$link></li>
 </$list>
 <br>
