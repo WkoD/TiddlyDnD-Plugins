@@ -1,0 +1,6 @@
+title: $:/config/flibbles/graph/edges/fields/besitzer
+type: application/json
+
+{
+    "label": "Besitzer"
+}

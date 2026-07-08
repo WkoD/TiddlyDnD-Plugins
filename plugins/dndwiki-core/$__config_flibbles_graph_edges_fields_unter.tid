@@ -1,0 +1,6 @@
+title: $:/config/flibbles/graph/edges/fields/unter
+type: application/json
+
+{
+    "label": "Unter"
+}

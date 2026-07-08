@@ -1,0 +1,57 @@
+caption: DnD-Ego-Graph (1 Hop, Typfarben)
+title: $:/dndwiki/graph/templates/dnd-ego
+
+\whitespace trim
+
+\procedure dnd.node()
+<$wikify name=label mode=inline text={{{ [{!!title}get[caption]else[<$text text={{!!title}} />]] }}}>
+<$node label=<<label>> image={{!!icon}} />
+</$wikify>
+\end dnd.node
+
+<!-- Ego-Netz um <<currentNode>>: Zentrum + 1-Hop-Nachbarn (Entitaeten + Gegenstaende).
+     Keine Persistenz, Physik an. Farben aus den Typ-Tags, Grau (tot/aufgeloest) als innerste
+     Ebene. Auto-Kanten tags/list/links/transcludes ausgeblendet. -->
+
+<$graph>
+<$properties $for=nodes actions="<$action-navigate $to=<<nodeTiddler>> />">
+<$properties physics=yes shape=box>
+
+<$properties $filter="[tag[Ereignis]]"      color={{Ereignis!!color}}>
+<$properties $filter="[tag[Gott]]"           color={{Gott!!color}}>
+<$properties $filter="[tag[Ort]]"            color={{Ort!!color}}>
+<$properties $filter="[tag[Artefakt]] [tag[Buch]] [tag[Gegenstand]] [tag[Material]]" color={{Gegenstand!!color}}>
+<$properties $filter="[tag[Person]]"         color={{Person!!color}}>
+<$properties $filter="[tag[Spieler]]"        color={{Spieler!!color}}>
+<$properties $filter="[tag[Organisation]]"   color={{Organisation!!color}}>
+<$properties $filter="[tag[Person]search:datum[.]]"       color="#dddddd" borderColor={{Person!!color}}>
+<$properties $filter="[tag[Spieler]search:datum[.]]"      color="#dddddd" borderColor={{Spieler!!color}}>
+<$properties $filter="[tag[Organisation]search:datum[.]]" color="#dddddd" borderColor={{Organisation!!color}}>
+<$properties $filter="[tag[Artefakt]search:datum[.]] [tag[Buch]search:datum[.]] [tag[Gegenstand]search:datum[.]] [tag[Material]search:datum[.]]" color="#dddddd" borderColor={{Gegenstand!!color}}>
+
+<$tiddler tiddler=<<currentNode>>>
+<<dnd.node>>
+<$edges.typed $fields="[all[]] -[[tags]] -[[list]]" $functions="[all[]] -[[links]] -[[transcludes]]" />
+</$tiddler>
+
+<$nodes.neighbors
+  $filter="[<currentNode>]"
+  $whitelist="[tag[Gott]] [tag[Organisation]] [tag[Person]] [tag[Spieler]] [tag[Artefakt]] [tag[Buch]] [tag[Gegenstand]] [tag[Material]]"
+  $fields="[all[]] -[[tags]] -[[list]]"
+  $functions="[all[]] -[[links]] -[[transcludes]]"
+  $interedges="yes" />
+
+</$properties>
+</$properties>
+</$properties>
+</$properties>
+</$properties>
+</$properties>
+</$properties>
+</$properties>
+</$properties>
+</$properties>
+</$properties>
+</$properties>
+</$properties>
+</$graph>

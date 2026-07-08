@@ -2,13 +2,15 @@
   "name": "tiddlydnd-plugins",
   "version": "1.0.0",
   "private": true,
-  "description": "Plugin-Buendel fuer die DnDWiki-Repo-Familie: dndwiki-core (Formatschicht) + staticfiles + felixhayashi/flibbles-Drittanbieter. Enthaelt die Autoren-/Vorschau-Edition.",
+  "description": "Plugin-Buendel fuer die DnDWiki-Repo-Familie: dndwiki-core (Formatschicht) + staticfiles (wkod-Eigenplugins). Der flibbles-Graph-Stack (graph/vis-network/relink) wird als release-gepinnte Git-Dep bezogen. Enthaelt die Autoren-/Vorschau-Edition.",
   "scripts": {
-    "start": "cross-env TIDDLYWIKI_PLUGIN_PATH=./plugins tiddlywiki editions/authoring --listen",
-    "smoke": "cross-env TIDDLYWIKI_PLUGIN_PATH=./plugins tiddlywiki editions/authoring --verbose --version"
+    "start": "node scripts/tw.js editions/authoring --listen",
+    "smoke": "node scripts/tw.js editions/authoring --verbose --version"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
-    "tiddlywiki": "5.4.0"
+    "tiddlywiki": "5.4.0",
+    "tw5-graph": "git+https://github.com/flibbles/tw5-graph.git#v1.7.1",
+    "tw5-vis-network": "git+https://github.com/flibbles/tw5-vis-network.git#v10.6.3",
+    "tw5-relink": "git+https://github.com/flibbles/tw5-relink.git#v2.6.0"
   }
 }

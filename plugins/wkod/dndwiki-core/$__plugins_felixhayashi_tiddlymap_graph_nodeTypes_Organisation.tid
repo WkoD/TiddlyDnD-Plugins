@@ -1,7 +1,0 @@
-created: 20200728112139992
-modified: 20200728112152857
-priority: 1
-scope: [tag[Organisation]]
-style: {"color":{"background":"rgba(255,128,0,1)"}}
-title: $:/plugins/felixhayashi/tiddlymap/graph/nodeTypes/Organisation
-type: text/vnd.tiddlywiki

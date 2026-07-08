@@ -1,0 +1,8 @@
+title: $:/config/flibbles/graph/edges/fields/allianz
+type: application/json
+
+{
+    "label": "Allianz",
+    "color": "#06e502",
+    "arrows": ""
+}

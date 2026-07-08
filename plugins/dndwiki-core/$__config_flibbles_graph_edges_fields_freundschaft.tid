@@ -1,0 +1,8 @@
+title: $:/config/flibbles/graph/edges/fields/freundschaft
+type: application/json
+
+{
+    "label": "Freundschaft",
+    "color": "#0bf208",
+    "arrows": ""
+}

@@ -1,15 +1,14 @@
 {
-    "description": "Autoren-/Vorschau-Edition: rendert die Formatschicht (dndwiki-core) mit allen Plugins. Format-Dateien werden im IDE unter plugins/wkod/dndwiki-core/ bearbeitet.",
+    "description": "Autoren-/Vorschau-Edition: rendert die Formatschicht (dndwiki-core) mit dem Graph-Stack. Format-Dateien werden im IDE unter plugins/dndwiki-core/ bearbeitet.",
     "plugins": [
         "tiddlywiki/tiddlyweb",
         "tiddlywiki/filesystem",
         "tiddlywiki/highlight",
-        "wkod/dndwiki-core",
-        "wkod/staticfiles",
-        "felixhayashi/tiddlymap",
-        "felixhayashi/hotzone",
-        "felixhayashi/topstoryview",
-        "flibbles/vis-network"
+        "dndwiki-core",
+        "staticfiles",
+        "graph",
+        "vis-network",
+        "relink"
     ],
     "themes": [
         "tiddlywiki/vanilla",

@@ -1,0 +1,8 @@
+title: $:/config/flibbles/graph/edges/fields/familie
+type: application/json
+
+{
+    "label": "Familie",
+    "color": "#a8a102",
+    "arrows": ""
+}

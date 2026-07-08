@@ -1,0 +1,6 @@
+title: $:/config/flibbles/graph/edges/fields/erschaffer
+type: application/json
+
+{
+    "label": "Erschaffer"
+}

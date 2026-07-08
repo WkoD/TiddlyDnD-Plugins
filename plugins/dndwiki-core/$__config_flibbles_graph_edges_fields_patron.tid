@@ -1,0 +1,7 @@
+title: $:/config/flibbles/graph/edges/fields/patron
+type: application/json
+
+{
+    "label": "Patron",
+    "stroke": "dotted"
+}

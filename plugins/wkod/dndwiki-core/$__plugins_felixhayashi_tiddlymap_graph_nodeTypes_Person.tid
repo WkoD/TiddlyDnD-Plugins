@@ -1,7 +1,0 @@
-created: 20200728112227916
-modified: 20200728112257793
-priority: 1
-scope: [tag[Person]!search:datum[.]]
-style: {"color":{"background":"rgba(0,166,0,1)"}}
-title: $:/plugins/felixhayashi/tiddlymap/graph/nodeTypes/Person
-type: text/vnd.tiddlywiki
