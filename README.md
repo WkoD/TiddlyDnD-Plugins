@@ -4,7 +4,8 @@ Plugin-Bündel für die **DnDWiki**-Repo-Familie. Ersetzt den früheren
 Engine-Fork `WkoD/TiddlyDnD`: Die Wikis nutzen jetzt das **offizielle**
 `tiddlywiki` aus npm und beziehen die Plugins von hier.
 
-Dieses Bündel enthält nur noch die **Eigenplugins** (`dndwiki-core`, `staticfiles`). Der **flibbles-Graph-Stack**
+Dieses Bündel enthält nur noch die **Eigenplugins** (`dndwiki-core`, `staticfiles`).
+Der **flibbles-Graph-Stack**
 (graph/vis-network/relink) wird von jedem Wiki **einzeln als release-gepinnte Git-Dep**
 bezogen (nicht mehr als Snapshot hier vendored). `felixhayashi/tiddlymap` (+hotzone/
 topstoryview) wurde durch `flibbles/graph` abgelöst und entfernt.
