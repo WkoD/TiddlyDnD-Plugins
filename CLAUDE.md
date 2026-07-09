@@ -4,35 +4,59 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Projektüberblick
 
-Dieses Repository ist das **Plugin-Bündel** für die `DnDWiki`-Repo-Familie
-(`DnDWiki`-Vorlage + Kampagnen wie `DnDWiki-Vandalia`/`DnDWiki-Tyranny`). Es wird von
-den Wikis als **eine** npm-Git-Dependency (`tiddlydnd-plugins`) konsumiert, auf einen
-Git-Tag gepinnt. Jedes Wiki listet die einzelnen Plugin-Ordner, die es davon nutzen
-will, explizit in seiner eigenen `tiddlywiki.info` → `plugins`.
+Plugin-Bündel für die `DnDWiki`-Repo-Familie. Details zu Inhalt und Einbindung:
+siehe `README.md`.
 
-Details zur Repo-Familie, Versionierung und Konsum-Modell: siehe `README.md`
-(hier) sowie `CLAUDE.md` in den Wiki-Repos (kanonisch gepflegt in `DnDWiki`).
+## Dokumentation - Zuständigkeiten
 
-## Enthaltene Plugins (`plugins/`)
+- **CLAUDE.md** (hier): Entwicklungsunterstützung - Regeln, Konventionen,
+  Bearbeitungs- und Release-Workflow.
+- **README.md**: was das Projekt ist und wie es in `DnDWiki` bzw. andere Wikis
+  eingebunden wird.
 
-| Plugin | Zweck | Bezug zum D&D-Datenmodell |
-|---|---|---|
-| `dndwiki-core` | Formatschicht: Makros, Filter, ViewTemplates, Styles, Index-Hubs, tw5-graph-Schema | ja, eng gekoppelt |
-| `staticfiles` | liefert `images/`+`data/` im Dev-Server aus (server-only) | nein |
+Neue Inhalte entsprechend einsortieren statt duplizieren. (Analoge Aufteilung in
+den Wiki-Repos, kanonisch gepflegt in `DnDWiki`.)
 
-Jedes Plugin ist ein eigenständiges **Ordner-Plugin** (Way A, kein Build) mit eigener
-`plugin.info`/`version`.
+## Formatschicht bearbeiten
 
-> Ein generisches, D&D-unabhängiges „Tiddler anheften"-Plugin (`pin-tiddler`) wurde
-> testweise als eigenes Plugin gebaut, dann aber wieder verworfen: Scope auf den
-> einen konkreten Bedarf reduziert (`Abenteuer`-Hub dauerhaft sichtbar, kein
-> Close-Button), dafür zurück in `dndwiki-core` — siehe Core-Overrides unten.
+`dndwiki-core` ist ein **Ordner-Plugin** unter `plugins/dndwiki-core/` (kein
+Build-Schritt - der Ordner *ist* das Plugin, Format-Tiddler dort direkt bearbeiten).
 
-## Core-Overrides — Liste & Update-Prozedur
+```bash
+npm install
+npm start          # Vorschau-/Autoren-Edition unter http://127.0.0.1:8080
+```
+
+`npm start` rendert Änderungen mit dem Graph-Stack zur Vorschau. Der
+plattformneutrale Launcher `scripts/tw.js` baut dafür `TIDDLYWIKI_PLUGIN_PATH` aus
+`./plugins` + den gepinnten `node_modules/tw5-*/plugins`.
+
+## Erweiterungen (`$:/_my/...`) - Inventar
+
+Inhalt von `dndwiki-core`, damit vor neuen Ergänzungen klar ist, was schon existiert:
+
+- **Makros** (`$:/_my/Macro/*`): `Bild` (löst `bild`-Feld gegen `images/<Tag>/` auf), `DatumKurz`/`DatumLang`/`DatumRechner` (In-World-Kalender), `FormatLink`, `Library`, `SubLink`, `SubTiddler` (rendert `<Titel>/<Sub>`-Subtiddler), `TagLink`, `TotLink`.
+- **Filter** (`$:/_my/Filter/*`): `EreignisListe`, `Multitag`, `SubTiddler`.
+- **ViewTemplates** (`$:/_my/ViewTemplate/*`): `Aktivitaet`, `Bild`, `Connections` (dynamische Verbindungsliste aus den Beziehungsfeldern, unter dem Graphen), `EgoGraph` (eingebetteter 1-Hop-Beziehungsgraph für Person/Spieler/Org/Gott), `Ereignis`, `Ereignisliste`, `Gegenstand`, `Link`, `Ort` (nur noch Karte), `Spieler`. Reihenfolge über `list-after`; reine Render-Infrastruktur.
+- **Snippets** (Tag `$:/tags/TextEditor/Snippet`): `OffenePunkte`, `SpoilerSpieler`.
+- **Styles**: `Border`, `Gegenstand`, `Tot`. **Tag-Template** `Tag_Ort`. **Template** `Template_Bild`. **App**: `RenameTag`.
+- **Index-/Hub-Tiddler** (Person, Ort, Organisation, Ereignis, ..., Spieler, TBC/Abenteuer): Typ-Tags tragen das `color`-Feld, aus dem der Graph die Knotenfarbe zieht.
+- **tw5-graph-Schema + Graph-Templates**: Fields-EdgeTypes (`$:/config/flibbles/graph/edges/fields/*`) + Relink-Feldtypen; die Graph-Templates `$:/dndwiki/graph/templates/dnd-graph` (Typfarben aus Tag-`color`, `shape=box`, keine Positionsspeicherung) und `.../dnd-ego`; der Ego-View `$:/dndwiki/graph/Ego`. Die dünnen View-Definitionen (`$:/graph/Default`/`Kosmogramm`/`Weltkarte`/`Gegenstände`) liegen bewusst je Wiki, nicht hier.
+
+## `staticfiles` - Implementierung
+
+`module-type: route`-Modul (Feld `platform: server`), das im `--listen`-Node-Server
+die Ordner `images/` und `data/` unter `/images/...` bzw. `/data/...` ausliefert (mit
+`..`-Traversal-Schutz) - der Standard-Server bedient sonst nur `/files/`. Durch
+`platform: server` schließt TiddlyWikis Offline-Save-Filter das Plugin **aus dem
+Build aus**: die gebaute/deployte Seite bleibt unverändert (dort liegt `images/`
+ohnehin neben `index.html`). Reines Dev-Hilfsmittel.
+
+## Core-Overrides - Liste & Update-Prozedur
 
 Manche Plugin-Tiddler **überschreiben** einen TiddlyWiki-Core-Shadow (1:1-Kopie des
 Core-Originals + gezielte Änderung), weil es dafür keinen Hook/Extension-Point gibt.
-Das ist bewusst die **letzte Wahl** — vorher immer prüfen, ob ein offizieller
+Das ist bewusst die **letzte Wahl** - vorher immer prüfen, ob ein offizieller
 Erweiterungspunkt (z. B. das `condition`-Feld bei ViewToolbar-Buttons, Tags wie
 `$:/tags/AboveStory`) ausreicht.
 
@@ -40,20 +64,12 @@ Aktuelle Liste:
 
 | Datei | Überschreibt | Plugin | Warum kein Hook reicht |
 |---|---|---|---|
-| `dndwiki-core/$__core_ui_ViewTemplate_body.tid` | `$:/core/ui/ViewTemplate/body` | `dndwiki-core` | Core kann nur *welches* Body-Template gewählt wird beeinflussen, nicht *ob* der Body abhängig vom eingeloggten Spieler (`$:/state/Spieler`) überhaupt gerendert wird. |
+| `dndwiki-core/$__core_ui_Buttons_close.tid` | `$:/core/ui/Buttons/close` | `dndwiki-core` | Das `condition`-Feld ist zwar ein offizieller Erweiterungspunkt, erfordert aber trotzdem eine volle Neudeklaration des Buttons (Felder lassen sich nicht einzeln nachrüsten). Blendet den (x)-Button beim `Abenteuer`-Hub aus (Tag `$:/tags/Pinned`), damit er nicht geschlossen werden kann. |
 | `dndwiki-core/$__core_ui_PageTemplate_story.tid` | `$:/core/ui/PageTemplate/story` | `dndwiki-core` | `handleCloseAllTiddlersEvent` in Core-JS (`navigator.js`) leert `$:/StoryList` hart, ohne Hook. Einzige Möglichkeit, dass der `Abenteuer`-Hub-Tiddler (Tag `$:/tags/Pinned`) das übersteht: der Story-River-Filter selbst muss ihn unabhängig von `$:/StoryList` mit anzeigen. |
-| `dndwiki-core/$__core_ui_Buttons_close.tid` | `$:/core/ui/Buttons/close` | `dndwiki-core` | Das `condition`-Feld ist zwar ein offizieller Erweiterungspunkt, erfordert aber trotzdem eine volle Neudeklaration des Buttons (Felder lassen sich nicht einzeln nachrüsten). Blendet den (×)-Button beim `Abenteuer`-Hub aus (Tag `$:/tags/Pinned`), damit er nicht geschlossen werden kann. |
-
-Bewusst **kein** generischer Anheften-Mechanismus (Toggle-Button für beliebige
-Tiddler) mehr — nur der eine konkrete Fall `Abenteuer` (dauerhaft per Tag
-`$:/tags/Pinned` markiert, kein UI-Weg zum Ändern). Eine generische Variante wurde
-gebaut und funktionierte, hatte aber eigene Problemklassen (Story-River-Reihenfolge
-bei `pushTop`, „Alle schließen" + Entpinnen ließ offene Tiddler verschwinden,
-zusätzliche Overrides für Sidebar/PageControls nötig) — für den tatsächlichen Bedarf
-nicht im Verhältnis zum Nutzen.
+| `dndwiki-core/$__core_ui_ViewTemplate_body.tid` | `$:/core/ui/ViewTemplate/body` | `dndwiki-core` | Core kann nur *welches* Body-Template gewählt wird beeinflussen, nicht *ob* der Body abhängig vom eingeloggten Spieler (`$:/state/Spieler`) überhaupt gerendert wird. |
 
 **Namenskonvention:** Dateien, die einen Core-Titel überschreiben, heißen
-`$__core_ui_<Pfad>_<Name>.tid` (Punkte/Slashes im Titel → Unterstriche) — signalisiert
+`$__core_ui_<Pfad>_<Name>.tid` (Punkte/Slashes im Titel -> Unterstriche) - signalisiert
 auf den ersten Blick "diese Datei überschreibt Core", unabhängig davon, in welchem
 Plugin-Ordner sie liegt.
 
@@ -65,17 +81,24 @@ hier, danach mittelbar auch in den Wikis, sobald sie ihrerseits ihre eigene
 2. Für jede Zeile obiger Tabelle: die überschriebene Datei gegen das neue Original in
    `node_modules/tiddlywiki/core/ui/<entsprechender Pfad>.tid` diffen.
 3. Bei Abweichungen: prüfen, ob die eigene Änderung noch sauber draufpasst
-   (übernehmen, dann erneut lokal in einer Kampagne verifizieren) oder ob sich durch
+   (übernehmen, dann erneut lokal in einem Wiki verifizieren) oder ob sich durch
    die Core-Änderung ein Hook/Extension-Point ergeben hat, der den Override jetzt
    überflüssig macht.
 4. Diese Tabelle bei Bedarf aktualisieren (neue Overrides ergänzen, obsolete
    entfernen).
 
 (Analoges Diff-Verfahren wie beim Template-Update für `DnDWiki`, siehe dort
-„Vorlagen-Version & Template-Update" in `CLAUDE.md`.)
+"Versionierung -> Vorlagen-Update" in `CLAUDE.md`.)
 
 ## Neue Version veröffentlichen
 
-Siehe `README.md` → „Neue Version veröffentlichen". Der Git-Tag versioniert das
-**ganze Bündel** (alle Plugin-Ordner); jedes einzelne Plugin trägt zusätzlich seine
-eigene `version` in seiner `plugin.info`.
+1. Format ändern -> `version` in `plugins/dndwiki-core/plugin.info` erhöhen
+   (semver: patch=Fix, minor=neue Features, major=brechende Änderung).
+2. `version` in `package.json` auf denselben Wert anheben.
+3. Committen, dann **taggen == Version** und Release setzen:
+   ```bash
+   git tag 1.1.0 && git push origin master 1.1.0
+   gh release create 1.1.0 --generate-notes
+   ```
+4. Konsumenten (DnDWiki-Repo-Familie) heben ihren Pin eigenständig an
+   (`#1.0.1` -> `#1.1.0`) und laufen `npm install`.
