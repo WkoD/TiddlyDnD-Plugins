@@ -31,6 +31,14 @@ npm start          # Vorschau-/Autoren-Edition unter http://127.0.0.1:8080
 plattformneutrale Launcher `scripts/tw.js` baut dafür `TIDDLYWIKI_PLUGIN_PATH` aus
 `./plugins` + den gepinnten `node_modules/tw5-*/plugins`.
 
+**Zeitstempel (`created`/`modified`):** Jedes Plugin-Tiddler (`.tid`, oder das
+`.meta`-Sidecar bei JS-Modulen wie Makros/Filtern) trägt diese Felder im
+TiddlyWiki-Format (UTC, `JJJJMMTTHHMMSSmmm`). Beim direkten Bearbeiten im IDE
+gilt dieselbe Pflege wie in den Wiki-Repos - siehe dort `CLAUDE.md` ->
+"Zeitstempel bei Tiddler-Bearbeitung" (neue Datei: `created`=`modified`=jetzt;
+inhaltliche Änderung: nur `modified`; mechanische Massenumbenennungen/
+-migrationen ausgenommen).
+
 ## Erweiterungen (`$:/_my/...`) - Inventar
 
 Inhalt von `dndwiki-core`, damit vor neuen Ergänzungen klar ist, was schon existiert:
