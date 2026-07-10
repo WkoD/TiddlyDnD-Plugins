@@ -4,9 +4,9 @@ title: $:/plugins/dndwiki-core/readme
 
 Die gemeinsame D&D-Formatschicht fuer die DnDWiki-Repo-Familie:
 
-* Makros, Filter, ViewTemplates, Styles, Snippets (`$:/_my/...`)
+* Makros, Filter, ViewTemplates, Styles, Snippets (`$:/plugins/dndwiki-core/...`)
 * Index-/Hub-Tiddler (Person, Ort, Organisation, Ereignis, ...)
-* tiddlymap-Schema (edge/nodeTypes)
+* tw5-graph-Schema (Fields-EdgeTypes + Graph-Templates) fuer die Beziehungsgraphen
 
 Wird von den Kampagnen-Wikis als gepinntes Plugin konsumiert
 (`git+https://github.com/WkoD/TiddlyDnD-Plugins.git#<version>`).

@@ -1,0 +1,19 @@
+created: 20200305182729567
+list-after: $:/plugins/dndwiki-core/viewtemplates/ort
+modified: 20220226183906834
+tags: $:/tags/ViewTemplate
+title: $:/plugins/dndwiki-core/viewtemplates/ereignisliste
+type: text/vnd.tiddlywiki
+
+<$reveal tag="div" class="tc-tiddler-body" type="nomatch" stateTitle=<<folded-state>> text="hide" retain="yes" animate="yes">
+<$list filter="[all[current]tags[]tag[Spieler]] ~[{$:/state/Spieler}] +[compare:string:eq{$:/state/Spieler}]" variable=null>
+<$list filter="[all[current]!is[system]!untagged[]!tag[Ereignis]!tag[Index]!tag[Information]!tag[Notiz]]">
+
+<hr>
+<h3>Geschichte</h3>
+<table><tr><th align="center" colspan="3">Zeitpunkt (DR)</th><th>Ereignis</th></tr>
+<$list filter="[all[current]backlinks[]tag[Ereignis]][tag{!!title}tag[Ereignis]] +[!ereignisliste[]]">{{!!title}}</$list>
+</table>
+</$list>
+</$list>
+</$reveal>

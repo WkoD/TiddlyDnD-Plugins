@@ -24,12 +24,30 @@ Build-Schritt - der Ordner *ist* das Plugin, Format-Tiddler dort direkt bearbeit
 
 ```bash
 npm install
-npm start          # Vorschau-/Autoren-Edition unter http://127.0.0.1:8080
+npm run smoke      # abhängigkeitsarmer Boot-/Ladecheck (kein Wiki-Checkout nötig)
 ```
 
-`npm start` rendert Änderungen mit dem Graph-Stack zur Vorschau. Der
-plattformneutrale Launcher `scripts/tw.js` baut dafür `TIDDLYWIKI_PLUGIN_PATH` aus
-`./plugins` + den gepinnten `node_modules/tw5-*/plugins`.
+`npm run smoke` bootet die Minimal-Edition `editions/smoke` (nur `tiddlywiki.info` mit der
+Plugin-Liste, **kein Inhalt**) mit dem Graph-Stack und bricht bei Modul-/Ladefehlern ab -
+z. B. nach einem Rename, um zu prüfen, dass alle Tiddler/Module noch laden. Der plattformneutrale
+Launcher `scripts/tw.js` baut dafür `TIDDLYWIKI_PLUGIN_PATH` aus `./plugins` + den gepinnten
+`node_modules/tw5-*/plugins`. Eine **inhaltliche Vorschau** gibt es hier bewusst nicht - dafür
+der IDE-Loop im echten Wiki (s. u.).
+
+**Im echten Wiki prüfen (IDE-Loop statt WYSIWYG):** Die Formatschicht wird bewusst hier
+im IDE bearbeitet (versionierte technische Schicht) und im Zusammenspiel mit einem echten
+Wiki geprüft - kein Browser-WYSIWYG-Rückspeichern. Dafür im Wiki-Repo (`DnDWiki` oder einer
+Kampagne) den Plugin-Dependency **lokal** auf diese Checkout zeigen lassen statt auf den
+Release-Pin:
+
+```json
+"tiddlydnd-plugins": "file:../TiddlyDnD-Plugins"
+```
+
+`npm install` legt das als Junction/Symlink an; der Wiki-Launcher lädt dann `plugins/dndwiki-core`
+**live**. Ablauf: Tiddler im IDE ändern -> `npm start` im Wiki neu starten -> Änderung sichtbar
+(Ordner-Plugins reloaden nicht hot, daher Neustart). Diese `file:`-Zeile ist eine **lokale,
+nicht committete** Dev-Umstellung; committet/released bleibt der Git-Pin (`#<version>`, s. `README.md`).
 
 **Zeitstempel (`created`/`modified`):** Jedes Plugin-Tiddler (`.tid`, oder das
 `.meta`-Sidecar bei JS-Modulen wie Makros/Filtern) trägt diese Felder im
@@ -39,17 +57,20 @@ gilt dieselbe Pflege wie in den Wiki-Repos - siehe dort `CLAUDE.md` ->
 inhaltliche Änderung: nur `modified`; mechanische Massenumbenennungen/
 -migrationen ausgenommen).
 
-## Erweiterungen (`$:/_my/...`) - Inventar
+## Erweiterungen (`$:/plugins/dndwiki-core/...`) - Inventar
 
-Inhalt von `dndwiki-core`, damit vor neuen Ergänzungen klar ist, was schon existiert:
+Inhalt von `dndwiki-core`, damit vor neuen Ergänzungen klar ist, was schon existiert.
+Alle Format-Tiddler liegen plugin-scoped unter `$:/plugins/dndwiki-core/<kategorie>/<name>`
+(Dateien in gleichnamigen Unterordnern, `kebab-case`). Makros werden weiterhin über ihren
+`exports.name` (klein, z. B. `<<bild>>`) aufgerufen - unabhängig vom Tiddler-Titel:
 
-- **Makros** (`$:/_my/Macro/*`): `Bild` (löst `bild`-Feld gegen `images/<Tag>/` auf), `DatumKurz`/`DatumLang`/`DatumRechner` (In-World-Kalender), `FormatLink`, `Library`, `SubLink`, `SubTiddler` (rendert `<Titel>/<Sub>`-Subtiddler), `TagLink`, `TotLink`.
-- **Filter** (`$:/_my/Filter/*`): `EreignisListe`, `Multitag`, `SubTiddler`.
-- **ViewTemplates** (`$:/_my/ViewTemplate/*`): `Aktivitaet`, `Bild`, `Connections` (dynamische Verbindungsliste aus den Beziehungsfeldern, unter dem Graphen), `EgoGraph` (eingebetteter 1-Hop-Beziehungsgraph für Person/Spieler/Org/Gott), `Ereignis`, `Ereignisliste`, `Gegenstand`, `Link`, `Ort` (nur noch Karte), `Spieler`. Reihenfolge über `list-after`; reine Render-Infrastruktur.
-- **Snippets** (Tag `$:/tags/TextEditor/Snippet`): `OffenePunkte`, `SpoilerSpieler`.
-- **Styles**: `Border`, `Gegenstand`, `Tot`. **Tag-Template** `Tag_Ort`. **Template** `Template_Bild`. **App**: `RenameTag`.
-- **Index-/Hub-Tiddler** (Person, Ort, Organisation, Ereignis, ..., Spieler, TBC/Abenteuer): Typ-Tags tragen das `color`-Feld, aus dem der Graph die Knotenfarbe zieht.
-- **tw5-graph-Schema + Graph-Templates**: Fields-EdgeTypes (`$:/config/flibbles/graph/edges/fields/*`) + Relink-Feldtypen; die Graph-Templates `$:/dndwiki/graph/templates/dnd-graph` (Typfarben aus Tag-`color`, `shape=box`, keine Positionsspeicherung) und `.../dnd-ego`; der Ego-View `$:/dndwiki/graph/Ego`. Die dünnen View-Definitionen (`$:/graph/Default`/`Kosmogramm`/`Weltkarte`/`Gegenstände`) liegen bewusst je Wiki, nicht hier.
+- **Makros** (`macros/*`): `bild` (löst `bild`-Feld gegen `images/<Tag>/` auf), `datum-kurz`/`datum-lang`/`datum-rechner` (In-World-Kalender), `format-link`, `library`, `sub-link`, `sub-tiddler` (rendert `<Titel>/<Sub>`-Subtiddler), `tag-link`, `tot-link`.
+- **Filter** (`filters/*`): `ereignis-liste`, `multitag`, `sub-tiddler`.
+- **ViewTemplates** (`viewtemplates/*`): `aktivitaet`, `bild`, `connections` (dynamische Verbindungsliste aus den Beziehungsfeldern, unter dem Graphen), `ego-graph` (eingebetteter 1-Hop-Beziehungsgraph für Person/Spieler/Org/Gott), `ereignis`, `ereignisliste`, `gegenstand`, `link`, `ort` (nur noch Karte), `spieler`. Reihenfolge über `list-after`; reine Render-Infrastruktur.
+- **Snippets** (`snippets/*`, Tag `$:/tags/TextEditor/Snippet`): `offene-punkte`, `spoiler-spieler`.
+- **Styles** (`styles/*`): `border`, `gegenstand`, `tot`. **Tag-Template** `tags/ort`. **Template** `templates/bild`.
+- **Index-/Hub-Tiddler** (Person, Ort, Organisation, Ereignis, ..., Spieler, TBC/Abenteuer; Titel ohne Präfix, Tag `Index`): Typ-Tags tragen das `color`-Feld, aus dem der Graph die Knotenfarbe zieht.
+- **tw5-graph-Schema + Graph-Templates**: Fields-EdgeTypes (`$:/config/flibbles/graph/edges/fields/*`) + Relink-Feldtypen; die Graph-Templates `$:/plugins/dndwiki-core/graph/templates/dnd-graph` (Typfarben aus Tag-`color`, `shape=box`, keine Positionsspeicherung) und `.../dnd-ego`; der Ego-View `$:/plugins/dndwiki-core/graph/ego`. Die dünnen View-Definitionen (`$:/graph/Default`/`Kosmogramm`/`Weltkarte`/`Gegenstände`) liegen bewusst je Wiki, nicht hier.
 
 ## `staticfiles` - Implementierung
 

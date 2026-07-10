@@ -1,0 +1,10 @@
+{
+    "description": "Minimal-Edition nur fuer den Boot-/Smoke-Check (npm run smoke): laedt dndwiki-core + Graph-Stack und bricht bei Modul-/Ladefehlern ab. Bewusst ohne Sync-Plugins (tiddlyweb/filesystem) -> schreibt nichts auf die Platte, kein Inhalt, keine Vorschau. Die Formatschicht wird im IDE bearbeitet und im echten Wiki (DnDWiki via file:-Junction) geprueft.",
+    "plugins": [
+        "dndwiki-core",
+        "staticfiles",
+        "graph",
+        "vis-network",
+        "relink"
+    ]
+}

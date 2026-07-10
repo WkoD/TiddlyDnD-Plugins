@@ -1,7 +1,0 @@
-caption: Beziehungen
-filter: [<currentNode>]
-template: $:/dndwiki/graph/templates/dnd-ego
-title: $:/dndwiki/graph/Ego
-type: application/json
-
-{}

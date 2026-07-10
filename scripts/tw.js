@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * Cross-platform TiddlyWiki launcher for the plugin bundle's authoring/preview edition.
+ * Cross-platform TiddlyWiki launcher for the plugin bundle (editions/smoke boot-check).
  *
  * Assembles TIDDLYWIKI_PLUGIN_PATH from this repo's own `plugins` folder
  * (wkod first-party: dndwiki-core, staticfiles) plus the individually pinned
