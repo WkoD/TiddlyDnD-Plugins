@@ -1,6 +1,6 @@
 created: 20200731085719858
 list-after: $:/plugins/dndwiki-core/viewtemplates/ort
-modified: 20260713140122000
+modified: 20260713142610000
 tags: $:/tags/ViewTemplate
 title: $:/plugins/dndwiki-core/viewtemplates/gegenstand
 type: text/vnd.tiddlywiki
@@ -10,27 +10,6 @@ type: text/vnd.tiddlywiki
 <$list filter="[all[current]has:field[preis]]">
 <b>Preis:</b> {{!!preis}} GP
 <br>
-</$list>
-<$list filter="[all[current]has:field[zutat]]">
-<hr>
-<b>Zutaten:</b>
-<table style="width:50%;">
-<$list filter="[all[current]get:field[zutat]split[,]sort[title]]">
-<tr>
-<$list filter="[{!!title}split[:]nth[2]]">
-<td style="width:20%;text-align: center;">
-{{!!title}}
-</td>
-</$list>
-<$list filter="[{!!title}split[:]first[]]">
-<td style="width:80%;text-align: center;">
-<$link to={{!!title}}><$view field="title"/></$link>
-</td>
-</$list>
-</tr>
-</$list>
-</table>
-<hr>
 </$list>
 </$list>
 </$reveal>
