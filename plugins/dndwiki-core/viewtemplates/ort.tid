@@ -1,6 +1,6 @@
 created: 20200308095521995
-list-after: $:/core/ui/ViewTemplate/body
-modified: 20220226184033354
+list-after: $:/plugins/dndwiki-core/viewtemplates/relations
+modified: 20260713135021000
 tags: $:/tags/ViewTemplate
 title: $:/plugins/dndwiki-core/viewtemplates/ort
 type: text/vnd.tiddlywiki

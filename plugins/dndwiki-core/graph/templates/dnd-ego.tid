@@ -36,7 +36,6 @@ title: $:/plugins/dndwiki-core/graph/templates/dnd-ego
 
 <$nodes.neighbors
   $filter="[<currentNode>]"
-  $whitelist="[tag[Gott]] [tag[Organisation]] [tag[Person]] [tag[Spieler]] [tag[Artefakt]] [tag[Buch]] [tag[Gegenstand]] [tag[Material]]"
   $fields="[all[]] -[[tags]] -[[list]]"
   $functions="[all[]] -[[links]] -[[transcludes]]"
   $interedges="yes" />

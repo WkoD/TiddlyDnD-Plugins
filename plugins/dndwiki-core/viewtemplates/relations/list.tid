@@ -1,0 +1,21 @@
+caption: Liste
+created: 20260713135021000
+modified: 20260713135021000
+title: $:/plugins/dndwiki-core/viewtemplates/relations/list
+type: text/vnd.tiddlywiki
+
+<!-- Iteriert ueber alle Feld-EdgeTypes und zeigt je Beziehung EINE Gruppe (Vorwaerts
+     eigene Felder UNION Rueckwaerts wer-zeigt-hierher) unter dem Edge-Label aus der
+     EdgeType-Config (getindex[label]). Label aendern = Graph + Liste zugleich. `self`
+     kommt von der aufrufenden relations.tid. -->
+
+<$list filter="[all[shadows+tiddlers]prefix[$:/config/flibbles/graph/edges/fields/]removeprefix[$:/config/flibbles/graph/edges/fields/]] -[[tags]] -[[list]] +[sort[]]" variable=field>
+<$set name=cfg value={{{ [[$:/config/flibbles/graph/edges/fields/]addsuffix<field>] }}}>
+<$list filter="[!is[system]] :filter[get<field>enlist-input[]match<self>] =[<self>get<field>enlist-input[]] +[!match<self>unique[]limit[1]]" variable=null>
+<h3 style="text-transform:capitalize;"><$text text={{{ [<cfg>getindex[label]] :else[<field>] }}}/></h3>
+<$list filter="[!is[system]] :filter[get<field>enlist-input[]match<self>] =[<self>get<field>enlist-input[]] +[!match<self>unique[]sort[title]]">
+<div class="tc-menu-list-subitem"><$macrocall $name="totlink" title={{!!title}} style="~~"/></div>
+</$list>
+</$list>
+</$set>
+</$list>
