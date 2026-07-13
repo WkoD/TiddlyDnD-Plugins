@@ -1,8 +1,8 @@
 {
   "name": "tiddlydnd-plugins",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
-  "description": "Plugin-Buendel fuer die DnDWiki-Repo-Familie: dndwiki-core (Formatschicht) + staticfiles (wkod-Eigenplugins). Der flibbles-Graph-Stack (graph/vis-network/relink) wird als release-gepinnte Git-Dep bezogen. Enthaelt eine Minimal-Edition fuer den Boot-/Smoke-Check (npm run smoke).",
+  "description": "Plugin-Buendel fuer die DnDWiki-Repo-Familie: dndwiki-core (Formatschicht) + staticfiles (wkod-Eigenplugins). Enthaelt eine Minimal-Edition fuer den Boot-/Smoke-Check (npm run smoke).",
   "scripts": {
     "smoke": "node scripts/tw.js editions/smoke --verbose --version"
   },
