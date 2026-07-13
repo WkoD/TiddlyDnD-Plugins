@@ -38,16 +38,21 @@ der IDE-Loop im echten Wiki (s. u.).
 im IDE bearbeitet (versionierte technische Schicht) und im Zusammenspiel mit einem echten
 Wiki geprüft - kein Browser-WYSIWYG-Rückspeichern. Dafür im Wiki-Repo (`DnDWiki` oder einer
 Kampagne) den Plugin-Dependency **lokal** auf diese Checkout zeigen lassen statt auf den
-Release-Pin:
+Release-Pin - per `npm link`:
 
-```json
-"tiddlydnd-plugins": "file:../TiddlyDnD-Plugins"
+```bash
+# einmalig in TiddlyDnD-Plugins:
+npm link
+# im Wiki-Repo (DnDWiki oder einer Kampagne):
+npm link tiddlydnd-plugins
 ```
 
-`npm install` legt das als Junction/Symlink an; der Wiki-Launcher lädt dann `plugins/dndwiki-core`
-**live**. Ablauf: Tiddler im IDE ändern -> `npm start` im Wiki neu starten -> Änderung sichtbar
-(Ordner-Plugins reloaden nicht hot, daher Neustart). Diese `file:`-Zeile ist eine **lokale,
-nicht committete** Dev-Umstellung; committet/released bleibt der Git-Pin (`#<version>`, s. `README.md`).
+Das legt `node_modules/tiddlydnd-plugins` als Symlink/Junction auf diese Checkout an; der
+Wiki-Launcher lädt dann `plugins/dndwiki-core` **live**. Ablauf: Tiddler im IDE ändern ->
+`npm start` im Wiki neu starten -> Änderung sichtbar (Ordner-Plugins reloaden nicht hot, daher
+Neustart). Der Link lebt rein in `node_modules` (gitignored) - `package.json` bleibt dabei
+unverändert, es gibt also nichts zu committen oder vor einem Release zurückzusetzen.
+Zurückschalten auf den Release-Pin: `npm unlink tiddlydnd-plugins && npm install`.
 
 **Zeitstempel (`created`/`modified`):** Jedes Plugin-Tiddler (`.tid`, oder das
 `.meta`-Sidecar bei JS-Modulen wie Makros/Filtern) trägt diese Felder im
