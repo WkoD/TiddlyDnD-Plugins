@@ -1,7 +1,10 @@
+created: 20260715103636000
+modified: 20260715103636000
 title: $:/config/flibbles/graph/edges/fields/patron
 type: application/json
 
 {
     "label": "Patron",
-    "stroke": "dotted"
+    "stroke": "dotted",
+    "color": "#99ff99"
 }

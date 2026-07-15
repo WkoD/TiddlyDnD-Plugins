@@ -1,8 +1,10 @@
+created: 20260715103636000
+modified: 20260715103636000
 title: $:/config/flibbles/graph/edges/fields/allianz
 type: application/json
 
 {
     "label": "Allianz",
     "color": "#06e502",
-    "arrows": ""
+    "smooth": "no"
 }

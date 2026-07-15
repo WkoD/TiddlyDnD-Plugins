@@ -16,6 +16,7 @@ title: $:/plugins/dndwiki-core/graph/templates/dnd-graph
 
 <$set name="focusTiddler" filter="[subfilter{!!filter}]">
 <$graph>
+<$properties $for=graph $tiddler="$:/config/dndwiki/graph/physics" />
 <$properties $for=nodes actions="<$action-navigate $to=<<nodeTiddler>> />">
 <$properties.settings>
 <$properties physics=yes shape=box>

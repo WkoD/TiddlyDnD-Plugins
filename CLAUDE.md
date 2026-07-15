@@ -77,6 +77,43 @@ Alle Format-Tiddler liegen plugin-scoped unter `$:/plugins/dndwiki-core/<kategor
 - **Index-/Hub-Tiddler** (Person, Ort, Organisation, Ereignis, ..., Spieler, TBC/Abenteuer; Titel ohne Präfix, Tag `Index`): Typ-Tags tragen das `color`-Feld, aus dem der Graph die Knotenfarbe zieht.
 - **tw5-graph-Schema + Graph-Templates**: Fields-EdgeTypes (`$:/config/flibbles/graph/edges/fields/*`) + Relink-Feldtypen; die Graph-Templates `$:/plugins/dndwiki-core/graph/templates/dnd-graph` (Typfarben aus Tag-`color`, `shape=box`, keine Positionsspeicherung) und `.../dnd-ego`; der Ego-View `$:/plugins/dndwiki-core/graph/ego`. Die dünnen View-Definitionen (`$:/graph/Default`/`Kosmogramm`/`Weltkarte`/`Gegenstände`) liegen bewusst je Wiki, nicht hier.
 
+## Graph-Konfiguration - wo was liegt
+
+tw5-graph trennt Konfiguration nach Scope; dndwiki-core folgt dieser Trennung konsequent
+und ergänzt einen eigenen Namensraum, wo tw5-graph keinen vorgibt:
+
+- **Pro Kantentyp** (Label, Farbe, Strichart, Pfeile, Kurvenverhalten, ...): ein JSON-Tiddler
+  pro Feld/Funktion unter `$:/config/flibbles/graph/edges/fields/<feldname>` bzw.
+  `.../functions/<name>` - Namensraum von tw5-graph vorgegeben, Werte kommen von uns.
+  Wird von `<$edges.typed>` automatisch per Namens-Match aufgelöst. Werte sind reine
+  Hex-/Literalwerte, kein Live-Binding an z. B. Tag-`color`-Felder möglich (JSON wird per
+  `JSON.parse` gelesen, kein Wikitext-Kontext) - bei Änderung der Quelle (z. B. Typ-Tag-Farbe)
+  manuell nachziehen. Die Typ-Tag-Hub-Tiddler selbst (Person/Ort/Organisation/Gegenstand/
+  Gott/...) liegen als Shadow-Defaults in `dndwiki-core` (Dateien ohne Präfix im Plugin-Root,
+  z. B. `Organisation.tid`), nicht im Kampagnen-Repo.
+- **Global pro Objekttyp** (Node/Edge/Graph-weite Defaults wie Physik): eigener Namensraum
+  `$:/config/dndwiki/graph/<kategorie>`. Anders als bei Feldtypen **kein** automatischer
+  Namens-Match - jeder neue Default muss explizit per `<$properties $for=<typ>
+  $tiddler="..." />` in beiden Graph-Templates (`graph/templates/dnd-graph.tid`,
+  `.../dnd-ego.tid`) eingebunden werden.
+- **Pro View** (Kosmogramm/Weltkarte/Gegenstände/Live/...): Override direkt als JSON-Feld auf
+  dem View-Tiddler (`edges.fields`, `edges.functions`, `graph.nodes`, `graph.edges`,
+  `graph.graph`) - reservierte Namen von tw5-graph, ausgewertet von dessen
+  `$properties.settings`-Baustein (den `dnd-graph.tid` einbindet). Nur für Views über
+  `dnd-graph.tid`; `dnd-ego` hat keine per-View-Override-Schicht.
+- **Override-Reichweite unterscheidet sich nach Objekttyp**: `$for=nodes`/`$for=edges`
+  kaskadieren über die Widget-Ahnenkette (näher am Objekt gewinnt - setzen Kantentyp-Config
+  *und* View-Override dieselbe Eigenschaft, gewinnt die Kantentyp-Config als nähere). `$for=graph`
+  (nur ein Graph-Objekt pro `<$graph>`) durchsucht stattdessen den gesamten `<$graph>`-Teilbaum
+  unabhängig von Verschachtelung - bei Kollision gewinnt, was später im Baum steht. Eigene
+  `$for=graph`-Defaults daher früh im Template platzieren, damit spätere per-View-Overrides
+  sie überschreiben können.
+- **Gotcha:** JSON-Werte in diesen Config-Tiddlern müssen **Strings** sein, auch für Zahlen
+  (`"width": "3.5"`, nicht `3.5`) - die Extraktion prüft `typeof datum === "string"` und verwirft
+  alles andere kommentarlos. Ein leerer String (`""`) zählt dabei ebenfalls als "nicht gesetzt"
+  und wird ignoriert (nicht als Override zum gezielten Löschen/Zurücksetzen nutzbar) - Ursache
+  war u. a. ein wirkungsloses `"arrows": ""` in den symmetrischen Kantentypen.
+
 ## `staticfiles` - Implementierung
 
 `module-type: route`-Modul (Feld `platform: server`), das im `--listen`-Node-Server

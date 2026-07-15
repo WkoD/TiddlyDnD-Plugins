@@ -14,6 +14,7 @@ title: $:/plugins/dndwiki-core/graph/templates/dnd-ego
      Ebene. Auto-Kanten tags/list/links/transcludes ausgeblendet. -->
 
 <$graph>
+<$properties $for=graph $tiddler="$:/config/dndwiki/graph/physics" />
 <$properties $for=nodes actions="<$action-navigate $to=<<nodeTiddler>> />">
 <$properties physics=yes shape=box>
 

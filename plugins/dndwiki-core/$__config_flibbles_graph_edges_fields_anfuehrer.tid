@@ -1,6 +1,10 @@
+created: 20260715103636000
+modified: 20260715103636000
 title: $:/config/flibbles/graph/edges/fields/anfuehrer
 type: application/json
 
 {
-    "label": "Anführer"
+    "label": "Anführer",
+    "color": "#ff8000",
+    "width": "3.5"
 }
