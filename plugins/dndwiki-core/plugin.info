@@ -3,7 +3,7 @@
   "name": "dndwiki-core",
   "description": "D&D-Formatschicht fuer DnDWiki: Makros, Filter, ViewTemplates, Style, Index-Hubs und tw5-graph-Schema (Fields-EdgeTypes + Graph-Templates).",
   "author": "WkoD",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "core-version": ">=5.4.0",
   "plugin-type": "plugin",
   "list": "readme"

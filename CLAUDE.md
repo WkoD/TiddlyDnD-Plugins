@@ -166,10 +166,18 @@ hier, danach mittelbar auch in den Wikis, sobald sie ihrerseits ihre eigene
 1. Format ändern -> `version` in `plugins/dndwiki-core/plugin.info` erhöhen
    (semver: patch=Fix, minor=neue Features, major=brechende Änderung).
 2. `version` in `package.json` auf denselben Wert anheben.
-3. Committen, dann **taggen == Version** und Release setzen:
+3. `npm install` laufen lassen -> zieht `package-lock.json` auf dieselbe Version
+   nach. Nicht überspringen: sonst läuft die Lockfile-Version dauerhaft aus dem
+   Tritt (stand bis 1.3.0 noch auf 1.0.0).
+4. Pin-Beispiel in `README.md` ("Einbinden in TiddlyWiki") auf die neue Version.
+5. Committen, dann **taggen == Version** und Release setzen:
    ```bash
-   git tag 1.1.0 && git push origin master 1.1.0
-   gh release create 1.1.0 --generate-notes
+   git tag 1.3.0 && git push origin master 1.3.0
+   gh release create 1.3.0 --generate-notes
    ```
-4. Konsumenten (DnDWiki-Repo-Familie) heben ihren Pin eigenständig an
-   (`#1.0.1` -> `#1.1.0`) und laufen `npm install`.
+   Brechende Formatänderungen (z. B. umbenannte Beziehungsfelder) gehören
+   ausdrücklich in die Release-Notes -- Konsumenten-Wikis verlieren sonst
+   unbemerkt Graph-Kanten.
+6. Konsumenten (DnDWiki-Repo-Familie) heben ihren Pin eigenständig an
+   (`#1.2.0` -> `#1.3.0`), laufen `npm install` und ziehen ihre eigene
+   `package.json`-`version` mit.

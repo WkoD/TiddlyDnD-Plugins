@@ -27,7 +27,7 @@ Werden von jedem Wiki einzeln per Release-Tag als Git-Dependency bezogen:
 ```json
 "devDependencies": {
   "tiddlywiki": "5.4.0",
-  "tiddlydnd-plugins": "git+https://github.com/WkoD/TiddlyDnD-Plugins.git#1.1.0",
+  "tiddlydnd-plugins": "git+https://github.com/WkoD/TiddlyDnD-Plugins.git#1.3.0",
   "tw5-graph": "git+https://github.com/flibbles/tw5-graph.git#v1.7.1",
   "tw5-vis-network": "git+https://github.com/flibbles/tw5-vis-network.git#v10.6.3",
   "tw5-relink": "git+https://github.com/flibbles/tw5-relink.git#v2.6.0"
