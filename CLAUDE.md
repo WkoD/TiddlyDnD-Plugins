@@ -50,9 +50,19 @@ npm link tiddlydnd-plugins
 Das legt `node_modules/tiddlydnd-plugins` als Symlink/Junction auf diese Checkout an; der
 Wiki-Launcher lädt dann `plugins/dndwiki-core` **live**. Ablauf: Tiddler im IDE ändern ->
 `npm start` im Wiki neu starten -> Änderung sichtbar (Ordner-Plugins reloaden nicht hot, daher
-Neustart). Der Link lebt rein in `node_modules` (gitignored) - `package.json` bleibt dabei
-unverändert, es gibt also nichts zu committen oder vor einem Release zurückzusetzen.
-Zurückschalten auf den Release-Pin: `npm unlink tiddlydnd-plugins && npm install`.
+Neustart). Der Link selbst lebt in `node_modules` (gitignored), und `package.json` bleibt
+unverändert - solange man den Link nur anlegt, gibt es nichts zu committen.
+
+**Zwei Fallstricke beim Zurückschalten auf den Release-Pin:**
+
+- `npm unlink tiddlydnd-plugins` ist ein Alias für `npm uninstall` und **entfernt die
+  Dependency aus `package.json`**. Danach muss der Pin-Eintrag von Hand wieder rein (oder
+  gleich `npm install "git+https://github.com/WkoD/TiddlyDnD-Plugins.git#<version>"`).
+  Nach dem Zurückschalten `git diff package.json` prüfen.
+- Bei aktivem Link schreibt `npm install` `file:../TiddlyDnD-Plugins` in die
+  `package-lock.json` statt des Release-Pins. In den Wiki-Repos ist das Lockfile gitignored,
+  bleibt also lokal - in Repos, die ihr Lockfile einchecken, darf dieser Zustand nicht
+  mitcommittet werden.
 
 **Zeitstempel (`created`/`modified`):** Jedes Plugin-Tiddler (`.tid`, oder das
 `.meta`-Sidecar bei JS-Modulen wie Makros/Filtern) trägt diese Felder im
