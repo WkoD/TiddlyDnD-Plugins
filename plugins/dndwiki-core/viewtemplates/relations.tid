@@ -1,11 +1,11 @@
 created: 20260713135021000
 list-after: $:/core/ui/ViewTemplate/body
-modified: 20260713135622000
+modified: 20260905064427000
 tags: $:/tags/ViewTemplate
 title: $:/plugins/dndwiki-core/viewtemplates/relations
 type: text/vnd.tiddlywiki
 
-<!-- Vereinigter Graph+Liste-Block (Backlog #25): eine Tabliste "Graph"/"Liste" (Graph
+<!-- Vereinigter Graph+Liste-Block: eine Tabliste "Graph"/"Liste" (Graph
      default-aktiv) statt beides gestapelt. Der Typ-Scope (multitag) steht bewusst nur
      hier, einmalig, statt in den beiden Tab-Inhalts-Tiddlern getrennt -> kann nicht mehr
      auseinanderlaufen wie zuvor bei ego-graph.tid (Person/Spieler/Organisation/Gott) vs.
