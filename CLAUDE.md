@@ -85,8 +85,8 @@ Alle Format-Tiddler liegen plugin-scoped unter `$:/plugins/dndwiki-core/<kategor
 - **Filter** (`filters/*`): `ereignis-liste`, `multitag` (Eingabe mit mindestens einem der Tags, gruppiert in Tag-Reihenfolge, ohne Duplikate).
 - **ViewTemplates** (`viewtemplates/*`): `aktivitaet`, `bild`, `ereignis`, `ereignisliste`, `gegenstand` (nur noch Jahr/Preis, kein manueller Beziehungsblock mehr - Zutaten laufen über `komponente` in `relations`), `link`, `ort` (nur noch Karte), `relations` (Tabliste "Graph"/"Liste" via `$:/plugins/flibbles/graph/ui/grouped-tabs`, Graph default-aktiv; Tab-Inhalte `relations/graph`+`relations/list`; ein einziger Typ-Scope-Filter für beide Tabs, Person/Spieler/Organisation/Gott/Ort/Artefakt/Buch/Gegenstand/Material), `spieler`. Reihenfolge über `list-after`; reine Render-Infrastruktur. Dazu `body-filter` (Kaskade, siehe unten).
 - **Snippets** (`snippets/*`, Tag `$:/tags/TextEditor/Snippet`): `offene-punkte`, `spoiler-spieler`.
-- **Styles** (`styles/*`): `border` (Rahmen je Typ, erzeugt aus den Hubs), `gegenstand` (nur `Buch`-Sonderregeln), `tot` und `angeheftet` (statisches CSS, `type: text/css`). **Templates** `templates/bild`, `templates/body-gesperrt`.
-- **Konfiguration** (`config/*`): `typfarbe` (Tag-Farbe aus dem Typ), `klasse-tot`, `klasse-angeheftet` - siehe unten.
+- **Styles** (`styles/*`): `border` (Rahmen je Typ, erzeugt aus den Hubs), `gegenstand` (nur `Buch`-Sonderregeln), `tot`, `angeheftet` und `readonly` (statisches CSS, `type: text/css`). **Templates** `templates/bild`, `templates/body-gesperrt`.
+- **Konfiguration** (`config/*`): `typfarbe` (Tag-Farbe aus dem Typ), `klasse-tot`, `klasse-angeheftet`, `klasse-readonly` - siehe unten.
 - **Index-/Hub-Tiddler** (Person, Ort, Organisation, Ereignis, ..., Spieler, TBC/Abenteuer; Titel ohne Präfix, Tag `Index`): Typ-Tags tragen das `color`-Feld, aus dem Graph-Knoten, Tiddler-Rahmen und Tag-Pillen ihre Farbe ziehen.
 - **tw5-graph-Schema + Graph-Templates**: Fields-EdgeTypes (`$:/config/flibbles/graph/edges/fields/*`) + Relink-Feldtypen; die Graph-Templates `$:/plugins/dndwiki-core/graph/templates/dnd-graph` (Typfarben aus Tag-`color`, `shape=box`, keine Positionsspeicherung) und `.../dnd-ego`; der Ego-View `$:/plugins/dndwiki-core/graph/ego`. Die dünnen View-Definitionen (`$:/graph/Default`/`Kosmogramm`/`Weltkarte`/`Gegenstände`) liegen bewusst je Wiki, nicht hier.
 
@@ -116,6 +116,12 @@ Weitere Kaskaden-Einträge statt Core-Overrides:
   sind damit ohne Handarbeit richtig gefärbt. Ein eigenes `color` gewinnt weiterhin.
 - `config/klasse-angeheftet` (`$:/tags/ClassFilters/TiddlerTemplate`): Klasse `dnd-pinned`
   für `$:/tags/Pinned`; `styles/angeheftet` blendet dort den Schließen-Knopf aus.
+- `config/klasse-readonly` (`$:/tags/ClassFilters/PageTemplate`): Klasse `dnd-readonly` am
+  Seitencontainer, sobald `$:/status/IsReadOnly` = `yes` ist - das setzt die CI der Wikis
+  nur in der veröffentlichten Kopie. `styles/readonly` blendet dann Bearbeiten/Klonen/
+  Löschen/Neu-*/Import/Manager und den Speichern-Knopf aus: dieselbe Liste wie
+  `$:/plugins/tiddlywiki/tiddlyweb/readonly`, das im Offline-Build fehlt (`save-offline.tid`
+  schließt `tiddlyweb` aus). Beim Anheben der Engine die Liste gegen dieses Original prüfen.
 
 Palette-Farben in statischem CSS über die Core-Variablen `--tpc-<Palette-Eintrag>` (seit
 5.4.0, erzeugt von `$:/core/stylesheets/custom-properties`; die Release-Note nennt
@@ -206,7 +212,9 @@ hier, danach mittelbar auch in den Wikis, sobald sie ihrerseits ihre eigene
 
 1. `npm install` (neue Engine ziehen).
 2. Für jede Zeile obiger Tabelle: die überschriebene Datei gegen das neue Original in
-   `node_modules/tiddlywiki/core/ui/<entsprechender Pfad>.tid` diffen.
+   `node_modules/tiddlywiki/core/ui/<entsprechender Pfad>.tid` diffen. Außerdem die
+   Knopfliste in `styles/readonly.tid` gegen
+   `node_modules/tiddlywiki/plugins/tiddlywiki/tiddlyweb/readonly-styles.tid` abgleichen.
 3. Bei Abweichungen: prüfen, ob die eigene Änderung noch sauber draufpasst
    (übernehmen, dann erneut lokal in einem Wiki verifizieren) oder ob sich durch
    die Core-Änderung ein Hook/Extension-Point ergeben hat, der den Override jetzt

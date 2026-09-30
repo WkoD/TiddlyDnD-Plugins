@@ -1,0 +1,35 @@
+created: 20260930215500000
+modified: 20260930215500000
+tags: $:/tags/Stylesheet
+title: $:/plugins/dndwiki-core/styles/readonly
+type: text/css
+
+/* Veroeffentlichte Kopie: Die CI setzt $:/status/IsReadOnly auf "yes", config/klasse-readonly
+   haengt dann die Klasse dnd-readonly an den Seitencontainer. Ausgeblendet werden dieselben
+   Knoepfe wie in $:/plugins/tiddlywiki/tiddlyweb/readonly (das tiddlyweb-Plugin ist im
+   Offline-Build nicht enthalten) und zusaetzlich der Speichern-Knopf. Lokal (npm start)
+   meldet der Server "no" - dort bleibt alles bearbeitbar. */
+.dnd-readonly button.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fclone,
+.dnd-readonly div.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fclone,
+.dnd-readonly button.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fdelete,
+.dnd-readonly div.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fdelete,
+.dnd-readonly button.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fedit,
+.dnd-readonly div.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fedit,
+.dnd-readonly button.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-here,
+.dnd-readonly div.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-here,
+.dnd-readonly button.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-journal-here,
+.dnd-readonly div.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-journal-here,
+.dnd-readonly button.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fimport,
+.dnd-readonly div.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fimport,
+.dnd-readonly button.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fmanager,
+.dnd-readonly div.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fmanager,
+.dnd-readonly button.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-image,
+.dnd-readonly div.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-image,
+.dnd-readonly button.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-journal,
+.dnd-readonly div.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-journal,
+.dnd-readonly button.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-tiddler,
+.dnd-readonly div.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fnew-tiddler,
+.dnd-readonly button.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fsave-wiki,
+.dnd-readonly div.tc-btn-\%24\%3A\%2Fcore\%2Fui\%2FButtons\%2Fsave-wiki {
+display: none;
+}
