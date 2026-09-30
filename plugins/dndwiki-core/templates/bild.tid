@@ -1,7 +1,7 @@
 created: 20200306173851644
-modified: 20200728113748008
-tags: 
+modified: 20260930204000000
+tags:
 title: $:/plugins/dndwiki-core/templates/bild
 type: text/vnd.tiddlywiki
 
-<$macrocall $name="bild" title={{!!title}}/>
+<<bild title={{!!title}}>>

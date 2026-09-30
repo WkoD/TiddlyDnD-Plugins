@@ -79,13 +79,48 @@ Alle Format-Tiddler liegen plugin-scoped unter `$:/plugins/dndwiki-core/<kategor
 (Dateien in gleichnamigen Unterordnern, `kebab-case`). Makros werden weiterhin über ihren
 `exports.name` (klein, z. B. `<<bild>>`) aufgerufen - unabhängig vom Tiddler-Titel:
 
-- **Makros** (`macros/*`): `bild` (löst `bild`-Feld gegen `images/<Tag>/` auf), `datum-kurz`/`datum-lang`/`datum-rechner` (In-World-Kalender), `format-link`, `library`, `sub-link`, `sub-tiddler` (rendert `<Titel>/<Sub>`-Subtiddler), `tag-link`, `tot-link`.
-- **Filter** (`filters/*`): `ereignis-liste`, `multitag`, `sub-tiddler`.
-- **ViewTemplates** (`viewtemplates/*`): `aktivitaet`, `bild`, `ereignis`, `ereignisliste`, `gegenstand` (nur noch Jahr/Preis, kein manueller Beziehungsblock mehr - Zutaten laufen über `komponente` in `relations`), `link`, `ort` (nur noch Karte), `relations` (Tabliste "Graph"/"Liste" via `$:/plugins/flibbles/graph/ui/grouped-tabs`, Graph default-aktiv; Tab-Inhalte `relations/graph`+`relations/list`; ein einziger Typ-Scope-Filter für beide Tabs, Person/Spieler/Organisation/Gott/Ort/Artefakt/Buch/Gegenstand/Material), `spieler`. Reihenfolge über `list-after`; reine Render-Infrastruktur.
+- **Funktionen** (`functions`, Tag `$:/tags/Global`): `dnd.sichtbar`, `dnd.tot` - siehe
+  "Funktionen & Kaskaden" unten.
+- **Makros** (`macros/*`): `bild` (löst `bild`-Feld gegen `images/<Tag>/` auf, mehrere Bilder komma-getrennt), `datum-lang`/`datum-rechner`/`datum-diff` (In-World-Kalender: Langform, Datum ± n Tage, Tage zwischen zwei Daten), `library` (gemeinsame Kalenderlogik: Monatslängen, laufende Tagesnummer, Parser), `sub-tiddler` (rendert `<Titel>/<Sub>`-Subtiddler), `tot-link`.
+- **Filter** (`filters/*`): `ereignis-liste`, `multitag` (Eingabe mit mindestens einem der Tags, gruppiert in Tag-Reihenfolge, ohne Duplikate).
+- **ViewTemplates** (`viewtemplates/*`): `aktivitaet`, `bild`, `ereignis`, `ereignisliste`, `gegenstand` (nur noch Jahr/Preis, kein manueller Beziehungsblock mehr - Zutaten laufen über `komponente` in `relations`), `link`, `ort` (nur noch Karte), `relations` (Tabliste "Graph"/"Liste" via `$:/plugins/flibbles/graph/ui/grouped-tabs`, Graph default-aktiv; Tab-Inhalte `relations/graph`+`relations/list`; ein einziger Typ-Scope-Filter für beide Tabs, Person/Spieler/Organisation/Gott/Ort/Artefakt/Buch/Gegenstand/Material), `spieler`. Reihenfolge über `list-after`; reine Render-Infrastruktur. Dazu `body-filter` (Kaskade, siehe unten).
 - **Snippets** (`snippets/*`, Tag `$:/tags/TextEditor/Snippet`): `offene-punkte`, `spoiler-spieler`.
-- **Styles** (`styles/*`): `border`, `gegenstand`, `tot`. **Tag-Template** `tags/ort`. **Template** `templates/bild`.
-- **Index-/Hub-Tiddler** (Person, Ort, Organisation, Ereignis, ..., Spieler, TBC/Abenteuer; Titel ohne Präfix, Tag `Index`): Typ-Tags tragen das `color`-Feld, aus dem der Graph die Knotenfarbe zieht.
+- **Styles** (`styles/*`): `border` (Rahmen je Typ, erzeugt aus den Hubs), `gegenstand` (nur `Buch`-Sonderregeln), `tot` und `angeheftet` (statisches CSS, `type: text/css`). **Templates** `templates/bild`, `templates/body-gesperrt`.
+- **Konfiguration** (`config/*`): `typfarbe` (Tag-Farbe aus dem Typ), `klasse-tot`, `klasse-angeheftet` - siehe unten.
+- **Index-/Hub-Tiddler** (Person, Ort, Organisation, Ereignis, ..., Spieler, TBC/Abenteuer; Titel ohne Präfix, Tag `Index`): Typ-Tags tragen das `color`-Feld, aus dem Graph-Knoten, Tiddler-Rahmen und Tag-Pillen ihre Farbe ziehen.
 - **tw5-graph-Schema + Graph-Templates**: Fields-EdgeTypes (`$:/config/flibbles/graph/edges/fields/*`) + Relink-Feldtypen; die Graph-Templates `$:/plugins/dndwiki-core/graph/templates/dnd-graph` (Typfarben aus Tag-`color`, `shape=box`, keine Positionsspeicherung) und `.../dnd-ego`; der Ego-View `$:/plugins/dndwiki-core/graph/ego`. Die dünnen View-Definitionen (`$:/graph/Default`/`Kosmogramm`/`Weltkarte`/`Gegenstände`) liegen bewusst je Wiki, nicht hier.
+
+## Funktionen & Kaskaden
+
+Gemeinsame Prüfungen stehen **einmal** in `functions.tid` und werden als Filter-Operator
+auf ihrer Eingabe aufgerufen (`[<currentTiddler>dnd.tot[]]`). So verhalten sie sich gleich
+in ViewTemplates, Kaskaden, ClassFilters und Graph-Templates - dort ist `currentTiddler`
+jeweils etwas anderes (in ClassFilters z. B. der Filter-Tiddler; der Story-Tiddler heißt
+dort `storyTiddler`).
+
+- **`dnd.sichtbar`** - Spieler-Sperre: liefert ein Ergebnis, wenn der Tiddler für den
+  eingeloggten Spieler (`$:/state/Spieler`) sichtbar ist. Alle ViewTemplates prüfen per
+  `<%if [<currentTiddler>dnd.sichtbar[]] %>`; den Body sperrt `viewtemplates/body-filter`
+  (`$:/tags/ViewTemplateBodyFilter`, leeres `list-before` = erster Eintrag der Kaskade), der
+  gesperrten Tiddlern `templates/body-gesperrt` zuweist. Eine Änderung der Sperrlogik
+  (z. B. Login pro Spieler) passiert nur in der Funktion.
+- **`dnd.tot`** - verstorben/zerstört: Punkt im `datum`-Feld, **Ereignisse ausgenommen**
+  (dort trennt der Punkt mehrere Zeitpunkte). Genutzt von `config/klasse-tot` (Klasse
+  `dnd-tot`, Stylesheet `styles/tot`) und den Graph-Templates; `tot-link.js` prüft dasselbe
+  in JS.
+
+Weitere Kaskaden-Einträge statt Core-Overrides:
+
+- `config/typfarbe` (`$:/tags/TiddlerColourFilter`, nach `color-field`): Tiddler ohne
+  eigenes `color` erben die Farbe ihres Typ-Hubs - Tag-Pillen neuer Organisationen/Orte
+  sind damit ohne Handarbeit richtig gefärbt. Ein eigenes `color` gewinnt weiterhin.
+- `config/klasse-angeheftet` (`$:/tags/ClassFilters/TiddlerTemplate`): Klasse `dnd-pinned`
+  für `$:/tags/Pinned`; `styles/angeheftet` blendet dort den Schließen-Knopf aus.
+
+Palette-Farben in statischem CSS über die Core-Variablen `--tpc-<Palette-Eintrag>` (seit
+5.4.0, erzeugt von `$:/core/stylesheets/custom-properties`; die Release-Note nennt
+fälschlich `--tp-color-*`). Solche Stylesheets als `type: text/css` anlegen - in Wikitext
+würde `--` zum Gedankenstrich.
 
 ## Graph-Konfiguration - wo was liegt
 
@@ -98,7 +133,9 @@ und ergänzt einen eigenen Namensraum, wo tw5-graph keinen vorgibt:
   Wird von `<$edges.typed>` automatisch per Namens-Match aufgelöst. Werte sind reine
   Hex-/Literalwerte, kein Live-Binding an z. B. Tag-`color`-Felder möglich (JSON wird per
   `JSON.parse` gelesen, kein Wikitext-Kontext) - bei Änderung der Quelle (z. B. Typ-Tag-Farbe)
-  manuell nachziehen. Die Typ-Tag-Hub-Tiddler selbst (Person/Ort/Organisation/Gegenstand/
+  manuell nachziehen. Das gilt nur für diese Kanten-JSONs; Tiddler-Rahmen (`styles/border`),
+  Tag-Pillen (`config/typfarbe`) und Graph-Knoten folgen dem Hub-`color` automatisch.
+  Die Typ-Tag-Hub-Tiddler selbst (Person/Ort/Organisation/Gegenstand/
   Gott/...) liegen als Shadow-Defaults in `dndwiki-core` (Dateien ohne Präfix im Plugin-Root,
   z. B. `Organisation.tid`), nicht im Kampagnen-Repo.
 - **Global pro Objekttyp** (Node/Edge/Graph-weite Defaults wie Physik): eigener Namensraum
@@ -127,8 +164,12 @@ und ergänzt einen eigenen Namensraum, wo tw5-graph keinen vorgibt:
 ## `staticfiles` - Implementierung
 
 `module-type: route`-Modul (Feld `platform: server`), das im `--listen`-Node-Server
-die Ordner `images/` und `data/` unter `/images/...` bzw. `/data/...` ausliefert (mit
-`..`-Traversal-Schutz) - der Standard-Server bedient sonst nur `/files/`. Durch
+die Ordner `images/` und `data/` unter `/images/...` bzw. `/data/...` ausliefert - der
+Standard-Server bedient sonst nur `/files/`. Der Handler folgt der Core-Route `get-file`
+(5.4): gestreamt, mit HTTP-Range (206/416) und `Content-Length`; der Traversal-Schutz
+prüft gegen den jeweiligen Unterordner, nicht nur gegen den Wiki-Ordner. Den Core-Handler
+direkt wiederzuverwenden geht nicht, weil er den Ordner `files/` fest eingebaut hat -
+bei Änderungen an `get-file.js` im Core also hier nachziehen. Durch
 `platform: server` schließt TiddlyWikis Offline-Save-Filter das Plugin **aus dem
 Build aus**: die gebaute/deployte Seite bleibt unverändert (dort liegt `images/`
 ohnehin neben `index.html`). Reines Dev-Hilfsmittel.
@@ -138,16 +179,21 @@ ohnehin neben `index.html`). Reines Dev-Hilfsmittel.
 Manche Plugin-Tiddler **überschreiben** einen TiddlyWiki-Core-Shadow (1:1-Kopie des
 Core-Originals + gezielte Änderung), weil es dafür keinen Hook/Extension-Point gibt.
 Das ist bewusst die **letzte Wahl** - vorher immer prüfen, ob ein offizieller
-Erweiterungspunkt (z. B. das `condition`-Feld bei ViewToolbar-Buttons, Tags wie
-`$:/tags/AboveStory`) ausreicht.
+Erweiterungspunkt ausreicht: Kaskaden (`$:/tags/ViewTemplateBodyFilter`,
+`$:/tags/TiddlerColourFilter`, ...), `$:/tags/ClassFilters/TiddlerTemplate` plus CSS, Tags
+wie `$:/tags/AboveStory`. Das `condition`-Feld für ViewToolbar-Buttons (5.4.0) hilft bei
+**Core**-Buttons nicht: es müsste am Button selbst stehen, also doch wieder ein Override.
 
 Aktuelle Liste:
 
 | Datei | Überschreibt | Plugin | Warum kein Hook reicht |
 |---|---|---|---|
-| `dndwiki-core/$__core_ui_Buttons_close.tid` | `$:/core/ui/Buttons/close` | `dndwiki-core` | Das `condition`-Feld ist zwar ein offizieller Erweiterungspunkt, erfordert aber trotzdem eine volle Neudeklaration des Buttons (Felder lassen sich nicht einzeln nachrüsten). Blendet den (x)-Button beim `Abenteuer`-Hub aus (Tag `$:/tags/Pinned`), damit er nicht geschlossen werden kann. |
 | `dndwiki-core/$__core_ui_PageTemplate_story.tid` | `$:/core/ui/PageTemplate/story` | `dndwiki-core` | `handleCloseAllTiddlersEvent` in Core-JS (`navigator.js`) leert `$:/StoryList` hart, ohne Hook. Einzige Möglichkeit, dass der `Abenteuer`-Hub-Tiddler (Tag `$:/tags/Pinned`) das übersteht: der Story-River-Filter selbst muss ihn unabhängig von `$:/StoryList` mit anzeigen. |
-| `dndwiki-core/$__core_ui_ViewTemplate_body.tid` | `$:/core/ui/ViewTemplate/body` | `dndwiki-core` | Core kann nur *welches* Body-Template gewählt wird beeinflussen, nicht *ob* der Body abhängig vom eingeloggten Spieler (`$:/state/Spieler`) überhaupt gerendert wird. |
+
+Abgelöst in 1.4.0: `$:/core/ui/ViewTemplate/body` (Spieler-Sperre jetzt über die
+Body-Kaskade, siehe "Funktionen & Kaskaden"; der Override war gegenüber 5.4 veraltet -
+`\import` und `tc-clearfix` fehlten, dazu ein verschachteltes `<p>` um jeden Text) und
+`$:/core/ui/Buttons/close` (jetzt Klasse `dnd-pinned` + CSS).
 
 **Namenskonvention:** Dateien, die einen Core-Titel überschreiben, heißen
 `$__core_ui_<Pfad>_<Name>.tid` (Punkte/Slashes im Titel -> Unterstriche) - signalisiert

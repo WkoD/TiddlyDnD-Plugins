@@ -25,10 +25,10 @@ title: $:/plugins/dndwiki-core/graph/templates/dnd-ego
 <$properties $filter="[tag[Person]]"         color={{Person!!color}}>
 <$properties $filter="[tag[Spieler]]"        color={{Spieler!!color}}>
 <$properties $filter="[tag[Organisation]]"   color={{Organisation!!color}}>
-<$properties $filter="[tag[Person]search:datum[.]]"       color="#dddddd" borderColor={{Person!!color}}>
-<$properties $filter="[tag[Spieler]search:datum[.]]"      color="#dddddd" borderColor={{Spieler!!color}}>
-<$properties $filter="[tag[Organisation]search:datum[.]]" color="#dddddd" borderColor={{Organisation!!color}}>
-<$properties $filter="[tag[Artefakt]search:datum[.]] [tag[Buch]search:datum[.]] [tag[Gegenstand]search:datum[.]] [tag[Material]search:datum[.]]" color="#dddddd" borderColor={{Gegenstand!!color}}>
+<$properties $filter="[tag[Person]dnd.tot[]]"       color="#dddddd" borderColor={{Person!!color}}>
+<$properties $filter="[tag[Spieler]dnd.tot[]]"      color="#dddddd" borderColor={{Spieler!!color}}>
+<$properties $filter="[tag[Organisation]dnd.tot[]]" color="#dddddd" borderColor={{Organisation!!color}}>
+<$properties $filter="[tag[Artefakt]] [tag[Buch]] [tag[Gegenstand]] [tag[Material]] +[dnd.tot[]]" color="#dddddd" borderColor={{Gegenstand!!color}}>
 
 <$tiddler tiddler=<<currentNode>>>
 <<dnd.node>>

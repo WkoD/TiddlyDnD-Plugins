@@ -20,52 +20,34 @@ exports.params = [
 Run the macro
 */
 exports.run = function(datum, tage) {
-   var date = datum.split("-");
-   var days = parseInt(tage);
+   var library = require("$:/plugins/dndwiki-core/macros/library");
+   var date = library.parseDatum(datum);
    var result = "";
 
-   if (date.length !== 3) {
-      return "0";
+   // Ungueltiges Datum -> leer (der Kalender-Rechner zeigt dann nichts statt "0")
+   if (!date) {
+      return "";
    }
-   
-   var year = parseInt(date[0]);
-   var month = parseInt(date[1]);
-   var day = parseInt(date[2]);
-   
-   var remaining = parseInt(tage);
-   
-   while (remaining != 0) {
-      // brechne Tage für aktuellen Monat
-      var monthdays = require("$:/plugins/dndwiki-core/macros/library").getTageFuerMonat(year, month, remaining);
 
-      // prüfe auf Monatsüberschlag
-      if ((day + remaining) > monthdays) {
-         remaining -= monthdays;
-         month++;
-      } else if ((day + remaining) < 1) {
-         remaining += monthdays;
-         month--;
-      } else {
-         day += remaining;
-         remaining = 0;
-      }
-      
-      // aktualisiere Monat und Jahr
-      if (month > 12) {
-         month = 1;
-         year++;
-      } else if (month < 1) {
-         month = 12;
-         year--;
-      }
-   }
-   
+   // Ueber die laufende Tagesnummer rechnen: Feiertage und Shieldmeet zaehlen automatisch
+   // richtig mit, in beide Richtungen (die fruehere Monatsschleife landete rueckwaerts vom
+   // Shieldmeet im Folgemonat)
+   var neu = library.getDatumAusNummer(library.getTagNummer(date.year, date.month, date.day) + (parseInt(tage, 10) || 0));
+   var year = neu.year;
+   var month = neu.month;
+   var day = neu.day;
+
    result += year.toString();
    result += "-";
    result += month > 9 ? month.toString() : "0" + month.toString();
    result += "-";
    result += day > 9 ? day.toString() : "0" + day.toString();
-   
+
+   // Uhrzeit o. Ae. unveraendert wieder anhaengen
+   if (date.rest) {
+      result += "-" + date.rest;
+   }
+
    return result;
 };
 

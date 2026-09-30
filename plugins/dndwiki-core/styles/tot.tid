@@ -1,11 +1,12 @@
 created: 20200209132938109
-modified: 20200805074324129
+modified: 20260930204000000
 tags: $:/tags/Stylesheet
 title: $:/plugins/dndwiki-core/styles/tot
-type: text/vnd.tiddlywiki
+type: text/css
 
-<$list filter="[!is[system]!tag[Ereignis]search:datum[.]]"> 
-[data-tiddler-title="<$view field=title/>"] {
-background-color: #DDDDDD;
+/* Verstorben/zerstoert: Klasse dnd-tot (config/klasse-tot, Funktion dnd.tot). Grau als
+   Mischung aus Palette-Farben - in der Vanilla-Palette exakt #dddddd, bei dunklen Paletten
+   entsprechend dunkel. */
+.dnd-tot {
+background-color: color-mix(in srgb, var(--tpc-muted-foreground) 50%, var(--tpc-tiddler-background));
 }
-</$list> 

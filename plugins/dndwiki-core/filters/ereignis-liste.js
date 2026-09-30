@@ -16,18 +16,19 @@ Filter operator for sorting
 Export our filter function
 */
 exports.ereignisliste = function(source,operator) {
+   var library = require("$:/plugins/dndwiki-core/macros/library");
    var result = prepare_results(source);
    var out = [];
 
    // sortiere Liste nach Datum
    result.sort(function(a, b) {
-      var year = require("$:/plugins/dndwiki-core/macros/library").comparePropertyNumber(a.year, b.year);
+      var year = library.comparePropertyNumber(a.year, b.year);
 
       if (year === 0) {
-         var month = require("$:/plugins/dndwiki-core/macros/library").comparePropertyNumber(a.month, b.month);
+         var month = library.comparePropertyNumber(a.month, b.month);
 
          if (month === 0) {
-            var day = require("$:/plugins/dndwiki-core/macros/library").comparePropertyNumber(a.day, b.day);
+            var day = library.comparePropertyNumber(a.day, b.day);
 
             if (day === 0) {
                return a.order - b.order;
@@ -58,7 +59,7 @@ exports.ereignisliste = function(source,operator) {
       var entry = result[i + 1];
       var line = "<tr style=\"height: 1em\">";
       var same = false;
-      var monattag = require("$:/plugins/dndwiki-core/macros/library").getMonatTag(lastresult.month, lastresult.day);
+      var monattag = library.getMonatTag(lastresult.month, lastresult.day);
 
       // Jahr
       if (entry && entry.year === lastresult.year) {
@@ -137,51 +138,44 @@ exports.ereignisliste = function(source,operator) {
    return out;
 };
 
+// Numerischer Schluessel JJJJMMTT; fehlender Monat/Tag zaehlt als 0
+var datumSchluessel = function(date) {
+   return (parseInt(date[0], 10) || 0) * 10000 + (parseInt(date[1], 10) || 0) * 100 + (parseInt(date[2], 10) || 0);
+};
+
 var prepare_results = function (source) {
    var results = [];
    source(function(tiddler,title) {
       if (tiddler) {
          var hastag = tiddler.hasTag("Abenteuer");
          if (tiddler.fields.datum) {
+            // Zeitpunkte durch "." getrennt; leere Teile werden uebersprungen (Punkt am Ende =
+            // offenes Ende: der letzte echte Zeitpunkt bleibt dann "(Fortsetzung)")
             var dates = tiddler.fields.datum.split(".");
             var flag = dates.length > 1 ? "(Start)" : null;
-			var prev = 0;
+            var prev = 0;
 
             for (var i = 0; i < dates.length; ++i) {
-			   if (dates[i]) {
+               if (dates[i]) {
                   var date = dates[i].split("-");
-				  
-				  if (i === 0) {
-				     prev = date[0] * 10000;
+                  var key = datumSchluessel(date);
 
-                     if (date[1]) {
-				        prev = prev + date[1] * 100;
-					 }
-					 
-                     if (date[1]) {
-				        prev = prev + date[2];
-					 }
-				  }
-     
-				  var order = date[0] * 10000;
+                  if (i === 0) {
+                     prev = key;
+                  }
 
-                  if (date[1]) {
-				     order = order + date[1] * 100;
-				  }
-					 
-                  if (date[1]) {
-				     order = order + date[2];
-				  }
-				  
-				  if (flag && (i === (dates.length - 1))) {
+                  if (flag && (i === (dates.length - 1))) {
                      flag = "(Ende)";
                   }
-				  
-                  results.push({title: tiddler.fields.title, year: date[0], month: date[1], day: date[2], order: (1 / (prev - order)), flag: flag, tt: hastag});
-               
+
+                  // Reihenfolge am selben Tag: Folgezeitpunkte (negativ, abhaengig vom Abstand zum
+                  // vorigen Zeitpunkt) vor ersten Zeitpunkten (1); mehrere erste Zeitpunkte bleiben
+                  // in Eingabereihenfolge
+                  results.push({title: tiddler.fields.title, year: date[0], month: date[1], day: date[2], order: (key === prev ? 1 : -1 / (key - prev)), flag: flag, tt: hastag});
+
                   flag = "(Fortsetzung)";
-				  prev = order;
-			   }
+                  prev = key;
+               }
             }
          } else {
             results.push({title: tiddler.fields.title, year: "????", month: null, day: null, order: 0, flag: null, tt: hastag});

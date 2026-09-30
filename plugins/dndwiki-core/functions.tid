@@ -1,0 +1,18 @@
+created: 20260930204000000
+modified: 20260930204000000
+tags: $:/tags/Global
+title: $:/plugins/dndwiki-core/functions
+type: text/vnd.tiddlywiki
+
+<!-- Gemeinsame Pruefungen der Formatschicht. Beide arbeiten auf ihrer Eingabe und werden
+     als Filter-Operator aufgerufen, z. B. [<currentTiddler>dnd.tot[]] - so verhalten sie
+     sich gleich in ViewTemplates, Kaskaden, ClassFilters und Graph-Templates. -->
+
+<!-- Spieler-Sperre: liefert ein Ergebnis, wenn der Tiddler fuer den eingeloggten Spieler
+     ($:/state/Spieler) sichtbar ist. Gesperrt ist ein Tiddler, der mit einer anderen
+     Spielfigur (einem Tiddler mit Tag "Spieler") getaggt ist. -->
+\function dnd.sichtbar() [tags[]tag[Spieler]] ~[{$:/state/Spieler}] +[compare:string:eq{$:/state/Spieler}]
+
+<!-- Verstorben/zerstoert: ein Punkt im datum-Feld. Ereignisse sind ausgenommen - dort
+     trennt der Punkt mehrere Zeitpunkte. -->
+\function dnd.tot() [!is[system]!tag[Ereignis]search:datum[.]]

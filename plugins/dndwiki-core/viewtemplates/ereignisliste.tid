@@ -1,13 +1,13 @@
 created: 20200305182729567
 list-after: $:/plugins/dndwiki-core/viewtemplates/gegenstand
-modified: 20260713135021000
+modified: 20260930204000000
 tags: $:/tags/ViewTemplate
 title: $:/plugins/dndwiki-core/viewtemplates/ereignisliste
 type: text/vnd.tiddlywiki
 
 <$reveal tag="div" class="tc-tiddler-body" type="nomatch" stateTitle=<<folded-state>> text="hide" retain="yes" animate="yes">
-<$list filter="[all[current]tags[]tag[Spieler]] ~[{$:/state/Spieler}] +[compare:string:eq{$:/state/Spieler}]" variable=null>
-<$list filter="[all[current]!is[system]!untagged[]!tag[Ereignis]!tag[Index]!tag[Information]!tag[Notiz]]">
+<%if [<currentTiddler>dnd.sichtbar[]] %>
+<$list filter="[all[current]!is[system]!untagged[]!tag[Ereignis]!tag[Index]!tag[Information]]">
 
 <hr>
 <h3>Geschichte</h3>
@@ -15,5 +15,5 @@ type: text/vnd.tiddlywiki
 <$list filter="[all[current]backlinks[]tag[Ereignis]][tag{!!title}tag[Ereignis]] +[!ereignisliste[]]">{{!!title}}</$list>
 </table>
 </$list>
-</$list>
+<%endif%>
 </$reveal>

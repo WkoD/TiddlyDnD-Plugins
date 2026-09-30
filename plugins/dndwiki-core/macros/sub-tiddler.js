@@ -48,7 +48,7 @@ exports.run = function(title, sub, heading, tags, template, style) {
 	   }
 	   
 	   if (tiddler.fields.bild) {
-		  ret += "<div align=\"center\"><$macrocall $name=\"bild\" title=\"" + tiddler.fields.title + "\" parent=\"" + parent.fields.title + "\"/></div>"
+		  ret += "<div align=\"center\"><<bild title=\"" + tiddler.fields.title + "\" parent=\"" + (parent ? parent.fields.title : "") + "\">></div>"
 	   }
 	   
        ret += "<$transclude tiddler=\"" + tiddler.fields.title + "\" mode=\"block\"/>";

@@ -1,6 +1,5 @@
-calc_: 
 created: 20181002134333437
-modified: 20201006075321278
+modified: 20260930204000000
 tags: Information
 title: Kalender
 type: text/vnd.tiddlywiki
@@ -8,9 +7,17 @@ type: text/vnd.tiddlywiki
 Ein weit verbreitetes System zum Messen der Zeit. Jahreszahlen werden nach der Zählung von Dale (DR - Dalereckoning) berechnet und ein Jahr durch den Kalender von Harptos aufgeteilt.
 
 !!! Rechner
+Datum als `JJJJ-MM-TT`. Feiertage sind Tag 31 des vorangehenden Monats (Midwinter = `1351-01-31`), Shieldmeet ist Tag 32 nach Flamerule.
+
 |!Datum: | <$edit-text tiddler="$:/temp/KalenderRechner" field="calc_date" type="text"/> |
 |!Extra Tage: | <$edit-text tiddler="$:/temp/KalenderRechner" field="calc_day" type="text"/> |
-|!Ergebnis: | <$macrocall $name="datumrechner" datum={{$:/temp/KalenderRechner!!calc_date}} tage={{$:/temp/KalenderRechner!!calc_day}}/> |
+|!Ergebnis: | <<datumrechner datum={{$:/temp/KalenderRechner!!calc_date}} tage={{$:/temp/KalenderRechner!!calc_day}}>> |
+|!Ausgeschrieben: | <$let ergebnis=<<datumrechner datum={{$:/temp/KalenderRechner!!calc_date}} tage={{$:/temp/KalenderRechner!!calc_day}}>>><%if [<ergebnis>!is[blank]] %><$transclude $variable="datumlang" datum=<<ergebnis>>/><%endif%></$let> |
+
+!!! Tage zwischen zwei Daten
+|!Von: | <$edit-text tiddler="$:/temp/KalenderRechner" field="calc_von" type="text"/> |
+|!Bis: | <$edit-text tiddler="$:/temp/KalenderRechner" field="calc_bis" type="text"/> |
+|!Tage: | <<datumdiff von={{$:/temp/KalenderRechner!!calc_von}} bis={{$:/temp/KalenderRechner!!calc_bis}}>> |
 
 !!! Kalender von Harptos
 

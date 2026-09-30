@@ -38,7 +38,7 @@ exports.run = function(datum, yearonly) {
    
    if (dates.length > 1) { 
       if (!dateEnd[0]) {
-         ret += " -  ????";
+         ret += " - ????";
       } else if (dateStart[0] != dateEnd[0]) {
          ret += " - " + dateEnd[0];
       }

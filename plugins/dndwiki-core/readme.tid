@@ -5,6 +5,8 @@ title: $:/plugins/dndwiki-core/readme
 Die gemeinsame D&D-Formatschicht fuer die DnDWiki-Repo-Familie:
 
 * Makros, Filter, ViewTemplates, Styles, Snippets (`$:/plugins/dndwiki-core/...`)
+* Funktionen `dnd.sichtbar` (Spieler-Sperre) und `dnd.tot` (verstorben/zerstoert) in `$:/plugins/dndwiki-core/functions`, aufrufbar als Filter-Operator
+* Kaskaden-Eintraege: Body-Sperre, Typfarbe fuer Tags, Klassen `dnd-tot`/`dnd-pinned`
 * Index-/Hub-Tiddler (Person, Ort, Organisation, Ereignis, ...)
 * tw5-graph-Schema (Fields-EdgeTypes + Graph-Templates) fuer die Beziehungsgraphen
 

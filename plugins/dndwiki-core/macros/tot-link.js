@@ -21,16 +21,9 @@ Run the macro
 */
 exports.run = function(title, style) {
    var tiddler = this.wiki.getTiddler(title);
-   var dead = false;
+   // Verstorben/zerstoert: Punkt im datum-Feld (vgl. dnd.tot in functions.tid)
+   var dead = !!(tiddler && tiddler.fields.datum && tiddler.fields.datum.indexOf(".") !== -1);
 
-   if (tiddler && tiddler.fields.datum) {
-	  for (var i = 0; i < tiddler.fields.datum.length; i++) {
-		 if (tiddler.fields.datum.charAt(i) === '.') {
-			 dead = true;
-		 }
-	  }
-   }
-   
    if (dead === true) {
 	  if (style) {
 		 return style + "[[" + title + "]]" + style;

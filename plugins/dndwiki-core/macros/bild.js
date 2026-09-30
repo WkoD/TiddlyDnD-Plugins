@@ -29,7 +29,12 @@ exports.run = function(title, parent) {
       var images = tiddler.fields.bild.split(",");
 
       for (var i = 0; i < images.length; ++i) {
-         ret += buildPath(tiddler, ptiddler, images[i]);
+         // "a.png, b.png" -> ohne Leerzeichen; leere Eintraege (z. B. Komma am Ende) ueberspringen
+         var name = images[i].trim();
+
+         if (name) {
+            ret += buildPath(tiddler, ptiddler, name);
+         }
       }
    }
 
